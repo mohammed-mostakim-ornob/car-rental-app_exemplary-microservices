@@ -1,0 +1,211 @@
+{
+	"info": {
+		"_postman_id": "ac06007c-1c6c-4e1a-833d-9dc3a31afd12",
+		"name": "Car Rental Application API Requests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Cars",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/car-api/api/v1/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"car-api",
+						"api",
+						"v1",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Cars By Code",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/car-api/api/v1/cars/2021_001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"car-api",
+						"api",
+						"v1",
+						"cars",
+						"2021_001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manufacturers",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/car-api/api/v1/manufacturers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"car-api",
+						"api",
+						"v1",
+						"manufacturers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Manufacturer Cars",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/car-api/v1/manufacturers/Audi/cars",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"car-api",
+						"v1",
+						"manufacturers",
+						"Audi",
+						"cars"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/location-api/api/v1/locations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"location-api",
+						"api",
+						"v1",
+						"locations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Location By Code",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/location-api/v1/locations/BER",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"location-api",
+						"v1",
+						"locations",
+						"BER"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Distance",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/location-api/api/v1/distance?from=BER&to=FRA",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"location-api",
+						"api",
+						"v1",
+						"distance"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "BER"
+						},
+						{
+							"key": "to",
+							"value": "FRA"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Rent",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8000/rent-api/api/v1/rent?from=BER&to=FRA&carCode=2021_001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"rent-api",
+						"api",
+						"v1",
+						"rent"
+					],
+					"query": [
+						{
+							"key": "from",
+							"value": "BER"
+						},
+						{
+							"key": "to",
+							"value": "FRA"
+						},
+						{
+							"key": "carCode",
+							"value": "2021_001"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

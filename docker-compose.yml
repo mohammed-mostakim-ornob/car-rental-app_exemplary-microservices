@@ -1,0 +1,81 @@
+version: '3.8'
+
+services:
+  discovery:
+    build:
+      context: ./
+      dockerfile: ./discovery-service/Dockerfile
+    ports:
+      - '8761:8761'
+    environment:
+      - server_port=8761
+      - application_name=discovery-service
+    networks:
+      - car-rental
+
+  car:
+    build:
+      context: ./
+      dockerfile: ./car-service/Dockerfile
+    ports:
+      - '8100:8100'
+    environment:
+      - server_port=8100
+      - application_name=car-service
+      - eureka_default_zone=http://discovery:8761/eureka
+    links:
+      - 'discovery:discovery'
+    networks:
+      - car-rental
+
+  location:
+    build:
+      context: ./
+      dockerfile: ./location-service/Dockerfile
+    ports:
+      - '8200:8200'
+    environment:
+      - server_port=8200
+      - application_name=location-service
+      - eureka_default_zone=http://discovery:8761/eureka
+    links:
+      - 'discovery:discovery'
+    networks:
+      - car-rental
+
+  rent:
+    build:
+      context: ./
+      dockerfile: ./rent-service/Dockerfile
+    ports:
+      - '8300:8300'
+    environment:
+      - server_port=8300
+      - application_name=rent-service
+      - eureka_default_zone=http://discovery:8761/eureka
+    links:
+      - 'discovery:discovery'
+      - 'car:car'
+      - 'location:location'
+    networks:
+      - car-rental
+
+  api-gateway:
+    build:
+      context: ./
+      dockerfile: ./api-gateway/Dockerfile
+    ports:
+      - '8000:8000'
+    environment:
+      - server_port=8000
+      - application_name=api-gateway
+      - eureka_default_zone=http://discovery:8761/eureka
+    links:
+      - 'car:car'
+      - 'location:location'
+      - 'rent:rent'
+    networks:
+      - car-rental
+
+networks:
+  car-rental:
