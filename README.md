@@ -8,6 +8,8 @@ From the business perspective, this is a simple application that serves car rent
 ## Services
 - Discovery Service
     - Acts as the registry service. All the other services register themselves with this service. The registered services are discoverable by the other services.
+- Config Service
+    - Stores and serves profile specific configurations to the services
 - API Gateway
     - Works as the entrypoint for the exposed REST APIs. Delegates the incoming requests to the corresponding services.
 - Car Service
