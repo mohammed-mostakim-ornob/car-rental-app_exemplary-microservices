@@ -9,7 +9,19 @@ services:
       - '8761:8761'
     environment:
       - server_port=8761
-      - application_name=discovery-service
+    networks:
+      - car-rental
+
+  config:
+    build:
+      context: ./
+      dockerfile: ./config-service/Dockerfile
+    ports:
+      - '8888:8888'
+    environment:
+      - server_port=8888
+      - config_server_default_branch=main
+      - config_server_git_uri=https://github.com/mohammed-mostakim-ornob/car-rental-config
     networks:
       - car-rental
 
@@ -21,10 +33,15 @@ services:
       - '8100:8100'
     environment:
       - server_port=8100
-      - application_name=car-service
+      - config_server=http://config:8888
       - eureka_default_zone=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+      - config
     links:
-      - 'discovery:discovery'
+      - discovery
+      - config
+    restart: on-failure
     networks:
       - car-rental
 
@@ -36,10 +53,15 @@ services:
       - '8200:8200'
     environment:
       - server_port=8200
-      - application_name=location-service
+      - config_server=http://config:8888
       - eureka_default_zone=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+      - config
     links:
-      - 'discovery:discovery'
+      - discovery
+      - config
+    restart: on-failure
     networks:
       - car-rental
 
@@ -51,12 +73,19 @@ services:
       - '8300:8300'
     environment:
       - server_port=8300
-      - application_name=rent-service
+      - config_server=http://config:8888
       - eureka_default_zone=http://discovery:8761/eureka
+    depends_on:
+      - discovery
+      - config
+      - car
+      - location
     links:
-      - 'discovery:discovery'
-      - 'car:car'
-      - 'location:location'
+      - discovery
+      - config
+      - car
+      - location
+    restart: on-failure
     networks:
       - car-rental
 
@@ -68,12 +97,17 @@ services:
       - '8000:8000'
     environment:
       - server_port=8000
-      - application_name=api-gateway
+      - config_server=http://config:8888
       - eureka_default_zone=http://discovery:8761/eureka
+    depends_on:
+      - car
+      - location
+      - rent
     links:
-      - 'car:car'
-      - 'location:location'
-      - 'rent:rent'
+      - car
+      - location
+      - rent
+    restart: on-failure
     networks:
       - car-rental
 
