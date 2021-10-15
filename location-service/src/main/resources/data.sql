@@ -1,14 +1,21 @@
-insert into location
-(code, name)
-values
+INSERT INTO location
+(
+    code,
+    name
+)
+VALUES
     ('BER', 'Berlin'),
     ('FRA', 'Frankfurt'),
     ('MUN', 'München'),
     ('HAM', 'Hamburg'),
     ('STU', 'Stuttgart');
 
-insert into distance
-(from_location, to_location, distance)
+INSERT INTO distance
+(
+    from_location,
+    to_location,
+    distance
+)
 values
     ('BER', 'FRA', 545.00),
     ('BER', 'MUN', 593.00),

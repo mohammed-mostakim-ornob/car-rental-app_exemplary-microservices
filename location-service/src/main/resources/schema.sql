@@ -1,0 +1,15 @@
+DROP TABLE IF EXISTS location;
+CREATE TABLE location
+(
+    code VARCHAR(255) NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+DROP TABLE IF EXISTS distance;
+CREATE TABLE distance
+(
+    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    distance DOUBLE NOT NULL,
+    from_location VARCHAR(255) NOT NULL REFERENCES location(code),
+    to_location VARCHAR(255) NOT NULL REFERENCES location(code)
+);
