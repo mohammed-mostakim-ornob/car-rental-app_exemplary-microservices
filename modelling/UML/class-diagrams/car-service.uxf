@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>602</x>
+      <y>273</y>
+      <w>287</w>
+      <h>196</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Package::de.uniba.dsg.carrental.carservice.model.data
+Car
+--
+- code: String
+- manufacturer: Manufacturer
+- model: String
+- rentPerKilo: Double
+--
++ getCode(): String
++ getManufacturer(): Manufacturer
++ getModel(): String
++ getRentPerKilo(): Double
+
++ setCode(code: String): void
++ setManufacturer(manufacturer: Manufacturer): void
++ setMode(model: String): void
++ setRentPerKilo(rentPerKilo: Double): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>448</x>
+      <y>196</y>
+      <w>119</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>RepresentationModel&lt;T&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>105</x>
+      <y>273</y>
+      <w>287</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Entity&gt;&gt;
+Package::de.uniba.dsg.carrental.carservice.model.data
+Manufacturer
+--
+- name: String
+--
++ getName(): String
+
++ setName(name: String): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>238</x>
+      <y>210</y>
+      <w>280</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;50.0;380.0;50.0;380.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>497</x>
+      <y>238</y>
+      <w>259</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>350.0;50.0;350.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>133</x>
+      <y>609</y>
+      <w>336</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Repository&gt;&gt;
+CarRepository
+Package::de.uniba.dsg.carrental.carservice.exception
+--
+findCarsByManufacturerName(manufacturerNameode: String): List&lt;Car&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>616</x>
+      <y>609</y>
+      <w>252</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Repository&gt;&gt;
+ManufacturerRepository
+Package::de.uniba.dsg.carrental.carservice.exception
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>490</x>
+      <y>560</y>
+      <w>112</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>JpaRepository&lt;T, T&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>294</x>
+      <y>525</y>
+      <w>266</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0;360.0;10.0;360.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>539</x>
+      <y>525</y>
+      <w>217</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>
+lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>290.0;130.0;290.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>280</x>
+      <y>126</y>
+      <w>273</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Exception&gt;&gt;
+Package::de.uniba.dsg.carrental.locationservice.exception
+EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>357</x>
+      <y>77</y>
+      <w>126</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>Exception</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>406</x>
+      <y>91</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;40.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>105</x>
+      <y>756</y>
+      <w>259</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+Package::de.uniba.dsg.carrental.carservice.service
+CarService
+--
+- carRepository: CarRepository
+--
++ getAllCars(): List&lt;Car&gt;
++ getCar(code: String): Car
++ getCarsByManufacturer(manufacturerName: String): List&lt;Car&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>679</x>
+      <y>756</y>
+      <w>301</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+Package::de.uniba.dsg.carrental.carservice.service
+ManufactureService
+--
+- manufacturerRepository: ManufacturerRepository
+--
++ getAllManufacturers(): List&lt;Manufacturer&gt;
++ getManufacturer(name: String): Manufacturer</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>105</x>
+      <y>889</y>
+      <w>280</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;RestController&gt;&gt;
+Package::de.uniba.dsg.carrental.carservice.controller.v1
+CarsController
+--
+- carService: CarService
+--
++ getCars(): ResponseEntity&lt;?&gt;
++ getCar(code: String): ResponseEntity&lt;?&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>434</x>
+      <y>889</y>
+      <w>280</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;RestController&gt;&gt;
+Package::de.uniba.dsg.carrental.carservice.controller.v1
+ManufacturersController
+--
+- carService: CarService
+- manufactureService: ManufactureService
+--
++ getManufacturers(): ResponseEntity&lt;?&gt;
++ getManufacturerCars(name: String): ResponseEntity&lt;?&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>315</x>
+      <y>0</y>
+      <w>196</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;SpringBootApplication&gt;&gt;
+de.uniba.dsg.carrental.carservice
+CarServiceApplication
+--
++ main(args: String[]): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>441</x>
+      <y>819</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>357</x>
+      <y>812</y>
+      <w>98</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+&lt;&lt;Throws&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1057</x>
+      <y>826</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>973</x>
+      <y>819</y>
+      <w>98</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+&lt;&lt;Throws&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;120.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>385</x>
+      <y>287</y>
+      <w>231</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..*</panel_attributes>
+    <additional_attributes>310.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+</diagram>

@@ -1,0 +1,481 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>7</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>350</x>
+      <y>287</y>
+      <w>287</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>Package::de.uniba.dsg.carrental.rentservice.model.dto
+Location
+--
+- code: String
+- name: String
+--
++ getCode(): String
++ getName(): String
+
++ setCode(code: String): void
++ setName(model: String): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1085</x>
+      <y>224</y>
+      <w>119</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>RepresentationModel&lt;T&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>686</x>
+      <y>287</y>
+      <w>287</w>
+      <h>168</h>
+    </coordinates>
+    <panel_attributes>Package::de.uniba.dsg.carrental.rentservice.model.dto
+Distance
+--
+- from: Location
+- to: Location
+- disance: Double
+--
++ getfrom(): Location
++ getTo(): Location
++ getDistance(): Double
+
++ setId(from: Location): void
++ setId(to: Location): void
++ setId(distance: Double): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>49</x>
+      <y>504</y>
+      <w>238</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;FeignClient&gt;&gt;
+CarServiceProxy
+Package::de.uniba.dsg.carrental.rentservice.proxy
+--
+fetchCar(code: String): Car</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>105</x>
+      <y>133</y>
+      <w>273</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Exception&gt;&gt;
+Package::de.uniba.dsg.carrental.rentservice.exception
+BadRequestException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>623</x>
+      <y>56</y>
+      <w>126</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>Exception</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>231</x>
+      <y>70</y>
+      <w>469</w>
+      <h>77</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;40.0;650.0;40.0;650.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>518</x>
+      <y>91</y>
+      <w>21</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>455</x>
+      <y>679</y>
+      <w>301</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Service&gt;&gt;
+Package::de.uniba.dsg.carrental.rentservice.service
+RentService
+--
+- carServiceProxy: CarServiceProxy
+- locationServiceProxy: LocationServiceProxy
+--
++ calculateRent(carCode: String, from: String, to: String): Rent</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>427</x>
+      <y>833</y>
+      <w>378</w>
+      <h>98</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;RestController&gt;&gt;
+Package::de.uniba.dsg.carrental.rentservice.controller.v1
+RentController
+--
+- rentService: RentService
+--
++ calculateRent(carCode: String, from: String, to: String): ResponseEntity&lt;?&gt;
++ calculateRentFallback(ex: Exception): ResponseEntity&lt;?&gt;
+- validateRentRequestQueryParams(carCode: String, from: String, to: String): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>406</x>
+      <y>0</y>
+      <w>196</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;SpringBootApplication&gt;&gt;
+Package::de.uniba.dsg.carrental.rentservice
+RentServiceApplication
+--
++ main(args: String[]): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>301</y>
+      <w>70</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+m1=1..*</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>301</x>
+      <y>518</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>280</x>
+      <y>532</y>
+      <w>98</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+&lt;&lt;Throws&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;50.0;120.0;50.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>679</x>
+      <y>133</y>
+      <w>273</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Exception&gt;&gt;
+Package::de.uniba.dsg.carrental.rentservice.exception
+FeignClientException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>966</x>
+      <y>133</y>
+      <w>273</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Exception&gt;&gt;
+Package::de.uniba.dsg.carrental.rentservice.exception
+InvalidRequestParamException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>679</x>
+      <y>91</y>
+      <w>434</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>600.0;60.0;600.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>805</x>
+      <y>91</y>
+      <w>21</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>392</x>
+      <y>133</y>
+      <w>273</w>
+      <h>42</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Exception&gt;&gt;
+Package::de.uniba.dsg.carrental.rentservice.exception
+EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>49</x>
+      <y>287</y>
+      <w>287</w>
+      <h>161</h>
+    </coordinates>
+    <panel_attributes>Package::de.uniba.dsg.carrental.rentservice.model.dto
+Car
+--
+- code: String
+- model: String
+- rentPerKilo: Double
+--
++ getCode(): String
++ getModel(): String
++ getRentPerKilo(): Double
+
++ setCode(code: String): void
++ setModel(model: String): void
++ setRentPerKilo(rentPerKilo: Double): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1001</x>
+      <y>287</y>
+      <w>287</w>
+      <h>196</h>
+    </coordinates>
+    <panel_attributes>Package::de.uniba.dsg.carrental.rentservice.model.dto
+Rent
+--
+- carCode: String
+- from: String
+- to: String
+- rent: Double
+--
++ getCarCode(): String
++ getFrom(): String
++ getTo(): String
++ getRent(): Double
+
++ setCarCode(carCode: String): void
++ setFrom(from: String): void
++ setTo(to: String): void
++ setRent(rent: Double): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1134</x>
+      <y>238</y>
+      <w>21</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>357</x>
+      <y>560</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>301</x>
+      <y>595</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>532</x>
+      <y>504</y>
+      <w>238</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;FeignClient&gt;&gt;
+LocationServiceProxy
+Package::de.uniba.dsg.carrental.rentservice.proxy
+--
+getDistance(from: String, to: String): Distance</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>777</x>
+      <y>532</y>
+      <w>98</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+&lt;&lt;Throws&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;50.0;120.0;50.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>798</x>
+      <y>518</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>854</x>
+      <y>560</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>798</x>
+      <y>595</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>749</x>
+      <y>714</y>
+      <w>98</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+&lt;&lt;Throws&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;50.0;120.0;50.0;120.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>826</x>
+      <y>742</y>
+      <w>21</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>777</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>770</x>
+      <y>700</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>875</x>
+      <y>903</y>
+      <w>133</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>EntityNotFoundException</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>798</x>
+      <y>903</y>
+      <w>91</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;.&gt;
+&lt;&lt;Throws&gt;&gt;</panel_attributes>
+    <additional_attributes>10.0;20.0;110.0;20.0</additional_attributes>
+  </element>
+</diagram>
