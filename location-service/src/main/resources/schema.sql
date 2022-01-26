@@ -8,8 +8,8 @@ CREATE TABLE location
 DROP TABLE IF EXISTS distance;
 CREATE TABLE distance
 (
-    id BIGINT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    distance DOUBLE NOT NULL,
+    id SERIAL NOT NULL PRIMARY KEY,
+    distance DOUBLE PRECISION NOT NULL,
     from_location VARCHAR(255) NOT NULL REFERENCES location(code),
     to_location VARCHAR(255) NOT NULL REFERENCES location(code)
 );
