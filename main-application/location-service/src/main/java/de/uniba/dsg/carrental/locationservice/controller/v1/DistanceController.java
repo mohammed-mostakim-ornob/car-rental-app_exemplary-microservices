@@ -13,6 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/location-service/api/v1/distance")
 public class DistanceController {
     private final DistanceService distanceService;
 
@@ -21,7 +22,7 @@ public class DistanceController {
         this.distanceService = distanceService;
     }
 
-    @GetMapping("/api/v1/distance")
+    @GetMapping
     public ResponseEntity<?> getDistance(@RequestParam String from, @RequestParam String to) {
         try {
             validateDistanceRequestParam(from, to);

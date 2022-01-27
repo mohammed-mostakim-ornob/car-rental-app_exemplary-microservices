@@ -19,6 +19,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/location-service/api/v1/locations")
 public class LocationsController {
     private final LocationService locationService;
 
@@ -27,7 +28,7 @@ public class LocationsController {
         this.locationService = locationService;
     }
 
-    @GetMapping("/api/v1/locations")
+    @GetMapping
     public ResponseEntity<?> getLocations() {
         try {
             List<Location> locations = locationService.getAllLocations();
@@ -46,7 +47,7 @@ public class LocationsController {
         }
     }
 
-    @GetMapping("/api/v1/locations/{code}")
+    @GetMapping("/{code}")
     public ResponseEntity<?> getLocation(@PathVariable String code) {
         try {
             Location location = locationService.getLocationByCode(code);

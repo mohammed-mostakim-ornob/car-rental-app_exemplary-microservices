@@ -22,6 +22,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/rent-service/api/v1/rent")
 public class RentController {
     private final RentService rentService;
 
@@ -30,7 +31,7 @@ public class RentController {
         this.rentService = rentService;
     }
 
-    @GetMapping("/api/v1/rent")
+    @GetMapping
     @CircuitBreaker(name = "circuit-breaker-calculateRent", fallbackMethod = "calculateRentFallback")
     public ResponseEntity<?> calculateRent(@RequestParam String carCode, @RequestParam String from, @RequestParam String to) {
         try {

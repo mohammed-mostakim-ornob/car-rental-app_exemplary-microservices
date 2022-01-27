@@ -21,6 +21,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
+@RequestMapping("/car-service/api/v1/manufacturers")
 public class ManufacturersController {
     private final CarService carService;
     private final ManufactureService manufactureService;
@@ -31,7 +32,7 @@ public class ManufacturersController {
         this.manufactureService = manufactureService;
     }
 
-    @GetMapping("/api/v1/manufacturers")
+    @GetMapping
     public ResponseEntity<?> getManufacturers() {
         try {
             List<Manufacturer> manufacturers = manufactureService.getAllManufacturers();
@@ -50,7 +51,7 @@ public class ManufacturersController {
         }
     }
 
-    @GetMapping("/api/v1/manufacturers/{name}/cars")
+    @GetMapping("/{name}/cars")
     public ResponseEntity<?> getManufacturerCars(@PathVariable String name) {
         try {
             Manufacturer manufacturer = manufactureService.getManufacturer(name);

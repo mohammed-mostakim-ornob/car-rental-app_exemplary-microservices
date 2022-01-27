@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient("car-service")
 public interface CarServiceProxy {
-    @GetMapping("/car-api/api/v1/cars/{code}")
+    @GetMapping("/car-service/api/v1/cars/{code}")
     Car fetchCar(@PathVariable String code) throws EntityNotFoundException, InvalidRequestParamException;
 }
