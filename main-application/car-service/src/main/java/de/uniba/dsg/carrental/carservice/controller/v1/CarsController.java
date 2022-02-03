@@ -1,6 +1,8 @@
 package de.uniba.dsg.carrental.carservice.controller.v1;
 
+import de.uniba.dsg.carrental.carservice.Constants;
 import de.uniba.dsg.carrental.carservice.exception.EntityNotFoundException;
+import de.uniba.dsg.carrental.carservice.helper.Helper;
 import de.uniba.dsg.carrental.carservice.model.data.Car;
 import de.uniba.dsg.carrental.carservice.service.CarService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -50,7 +53,7 @@ public class CarsController {
                 ).withSelfRel());
 
                 car.getManufacturer().add(linkTo(
-                        methodOn(ManufacturersController.class).getManufacturerCars(car.getManufacturer().getName())).withRel("getCars")
+                        methodOn(ManufacturersController.class).getManufacturerCars(car.getManufacturer().getName())).withRel(Constants.METHOD_GET_CARS)
                 );
             });
 
@@ -58,9 +61,21 @@ public class CarsController {
                     methodOn(CarsController.class).getCars()
             ).withSelfRel();
 
-            return new ResponseEntity<>(CollectionModel.of(cars, link), HttpStatus.OK);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CARS)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
+                    )))
+                    .body(CollectionModel.of(cars, link));
         } catch (Exception ex) {
-            return new ResponseEntity<>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CARS)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
+                    )))
+                    .body("Internal Server Error.");
         }
     }
 
@@ -87,14 +102,32 @@ public class CarsController {
             ).withSelfRel());
 
             car.getManufacturer().add(linkTo(
-                methodOn(ManufacturersController.class).getManufacturerCars(car.getManufacturer().getName())).withRel("getCars")
+                methodOn(ManufacturersController.class).getManufacturerCars(car.getManufacturer().getName())).withRel(Constants.METHOD_GET_CARS)
             );
 
-            return new ResponseEntity<>(car, HttpStatus.OK);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
+                    )))
+                    .body(car);
         } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_NOT_FOUND)
+                    )))
+                    .body(ex.getMessage());
         } catch (Exception ex) {
-            return new ResponseEntity<>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
+                    )))
+                    .body("Internal Server Error.");
         }
     }
 }

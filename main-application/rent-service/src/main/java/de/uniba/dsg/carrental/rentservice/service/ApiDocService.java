@@ -1,5 +1,6 @@
 package de.uniba.dsg.carrental.rentservice.service;
 
+import de.uniba.dsg.carrental.rentservice.helper.Helper;
 import de.uniba.dsg.carrental.rentservice.model.dto.architectureextraction.MethodDto;
 import de.uniba.dsg.carrental.rentservice.model.dto.architectureextraction.ParameterDto;
 import de.uniba.dsg.carrental.rentservice.model.dto.architectureextraction.ResponseDto;
@@ -52,7 +53,7 @@ public class ApiDocService {
                         pathKey,
                         methodKey,
                         methodJson.getString("operationId"),
-                        methodJson.getString("operationId"),
+                        Helper.buildMethodUniqueName(methodJson.getString("operationId")),
                         methodJson.has("parameters")
                                 ? extractParameters(methodJson.getJSONArray("parameters"))
                                 : new HashSet<>(),

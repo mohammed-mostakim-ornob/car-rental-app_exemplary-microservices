@@ -19,6 +19,7 @@ public class ApplicationProperties {
     private String title;
     private String version;
     private String description;
+    private String uniqueId;
     private String domain;
     private String technologyStack;
     @DateTimeFormat(pattern = "dd/MM/yyyy")

@@ -1,9 +1,11 @@
 package de.uniba.dsg.carrental.rentservice.controller.v1;
 
 
+import de.uniba.dsg.carrental.rentservice.Constants;
 import de.uniba.dsg.carrental.rentservice.exception.BadRequestException;
 import de.uniba.dsg.carrental.rentservice.exception.EntityNotFoundException;
 import de.uniba.dsg.carrental.rentservice.exception.InvalidRequestParamException;
+import de.uniba.dsg.carrental.rentservice.helper.Helper;
 import de.uniba.dsg.carrental.rentservice.model.dto.Rent;
 import de.uniba.dsg.carrental.rentservice.service.RentService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -49,27 +52,51 @@ public class RentController {
                     })
             }
     )
-    @CircuitBreaker(name = "circuit-breaker-calculateRent", fallbackMethod = "calculateRentFallback")
-    public ResponseEntity<?> calculateRent(@RequestParam String carCode, @RequestParam String from, @RequestParam String to) {
+    @CircuitBreaker(name = "circuit-breaker-getRent", fallbackMethod = "getRentFallback")
+    public ResponseEntity<?> getRent(@RequestParam String carCode, @RequestParam String from, @RequestParam String to) {
         try {
             validateRentRequestQueryParams(carCode, from, to);
 
             Rent rent = rentService.calculateRent(carCode, from, to);
 
             rent.add(linkTo(
-                methodOn(RentController.class).calculateRent(rent.getCarCode(), rent.getFrom(), rent.getTo())
+                methodOn(RentController.class).getRent(rent.getCarCode(), rent.getFrom(), rent.getTo())
             ).withSelfRel());
 
-            return new ResponseEntity<>(rent, HttpStatus.OK);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
+                    )))
+                    .body(rent);
         } catch (BadRequestException | EntityNotFoundException | InvalidRequestParamException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_BAD_REQUEST)
+                    )))
+                    .body(ex.getMessage());
         } catch (Exception ex) {
-            return new ResponseEntity<>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
+                    )))
+                    .body("Internal Server Error.");
         }
     }
 
-    public ResponseEntity<?> calculateRentFallback(Exception ex) {
-        return new ResponseEntity<>("Rent can not be calculated due to internal server error.", HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<?> getRentFallback(Exception ex) {
+        return ResponseEntity
+                .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .headers(Helper.setHttpHeaders(Map.ofEntries(
+                        Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                        Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
+                )))
+                .body("Rent can not be calculated due to internal server error.");
     }
 
     private void validateRentRequestQueryParams(String carCode, String from, String to) throws BadRequestException {

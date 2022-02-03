@@ -1,7 +1,9 @@
 package de.uniba.dsg.carrental.locationservice.controller.v1;
 
+import de.uniba.dsg.carrental.locationservice.Constants;
 import de.uniba.dsg.carrental.locationservice.exception.InvalidRequestParamException;
 import de.uniba.dsg.carrental.locationservice.exception.EntityNotFoundException;
+import de.uniba.dsg.carrental.locationservice.helper.Helper;
 import de.uniba.dsg.carrental.locationservice.model.data.Distance;
 import de.uniba.dsg.carrental.locationservice.service.DistanceService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -9,9 +11,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
@@ -61,13 +66,37 @@ public class DistanceController {
                     methodOn(LocationsController.class).getLocation(distance.getTo().getCode())).withSelfRel()
             );
 
-            return new  ResponseEntity<>(distance, HttpStatus.OK);
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
+                    )))
+                    .body(distance);
         } catch (EntityNotFoundException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+            return ResponseEntity
+                    .status(HttpStatus.NOT_FOUND)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_NOT_FOUND)
+                    )))
+                    .body(ex.getMessage());
         } catch (InvalidRequestParamException ex) {
-            return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_BAD_REQUEST)
+                    )))
+                    .body(ex.getMessage());
         } catch (Exception ex) {
-            return new ResponseEntity<>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .headers(Helper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
+                    )))
+                    .body("Internal Server Error.");
         }
     }
 

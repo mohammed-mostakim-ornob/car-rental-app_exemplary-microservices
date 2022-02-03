@@ -1,6 +1,8 @@
 package de.uniba.dsg.carrental.carservice.service;
 
+import de.uniba.dsg.carrental.carservice.helper.Helper;
 import de.uniba.dsg.carrental.carservice.model.dto.architectureextraction.*;
+import de.uniba.dsg.carrental.carservice.properties.ApplicationProperties;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -49,7 +51,7 @@ public class ApiDocService {
                         pathKey,
                         methodKey,
                         methodJson.getString("operationId"),
-                        methodJson.getString("operationId"),
+                        Helper.buildMethodUniqueName(methodJson.getString("operationId")),
                         methodJson.has("parameters")
                                 ? extractParameters(methodJson.getJSONArray("parameters"))
                                 : new HashSet<>(),
