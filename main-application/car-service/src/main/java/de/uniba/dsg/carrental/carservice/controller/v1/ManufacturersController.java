@@ -5,6 +5,10 @@ import de.uniba.dsg.carrental.carservice.model.data.Car;
 import de.uniba.dsg.carrental.carservice.model.data.Manufacturer;
 import de.uniba.dsg.carrental.carservice.service.CarService;
 import de.uniba.dsg.carrental.carservice.service.ManufactureService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -33,6 +37,16 @@ public class ManufacturersController {
     }
 
     @GetMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     public ResponseEntity<?> getManufacturers() {
         try {
             List<Manufacturer> manufacturers = manufactureService.getAllManufacturers();
@@ -52,6 +66,19 @@ public class ManufacturersController {
     }
 
     @GetMapping("/{name}/cars")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "404", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     public ResponseEntity<?> getManufacturerCars(@PathVariable String name) {
         try {
             Manufacturer manufacturer = manufactureService.getManufacturer(name);

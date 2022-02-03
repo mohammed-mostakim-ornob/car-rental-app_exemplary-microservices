@@ -3,6 +3,10 @@ package de.uniba.dsg.carrental.locationservice.controller.v1;
 import de.uniba.dsg.carrental.locationservice.exception.EntityNotFoundException;
 import de.uniba.dsg.carrental.locationservice.model.data.Location;
 import de.uniba.dsg.carrental.locationservice.service.LocationService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -29,6 +33,16 @@ public class LocationsController {
     }
 
     @GetMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     public ResponseEntity<?> getLocations() {
         try {
             List<Location> locations = locationService.getAllLocations();
@@ -48,6 +62,19 @@ public class LocationsController {
     }
 
     @GetMapping("/{code}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "404", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     public ResponseEntity<?> getLocation(@PathVariable String code) {
         try {
             Location location = locationService.getLocationByCode(code);

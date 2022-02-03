@@ -3,6 +3,10 @@ package de.uniba.dsg.carrental.carservice.controller.v1;
 import de.uniba.dsg.carrental.carservice.exception.EntityNotFoundException;
 import de.uniba.dsg.carrental.carservice.model.data.Car;
 import de.uniba.dsg.carrental.carservice.service.CarService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.CollectionModel;
 import org.springframework.hateoas.Link;
@@ -26,6 +30,16 @@ public class CarsController {
     }
 
     @GetMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     public ResponseEntity<?> getCars() {
         try {
             List<Car> cars = carService.getAllCars();
@@ -51,6 +65,19 @@ public class CarsController {
     }
 
     @GetMapping("/{code}")
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "404", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     public ResponseEntity<?> getCar(@PathVariable String code) {
         try {
             Car car = carService.getCar(code);

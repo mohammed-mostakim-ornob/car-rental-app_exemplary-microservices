@@ -7,6 +7,10 @@ import de.uniba.dsg.carrental.rentservice.exception.InvalidRequestParamException
 import de.uniba.dsg.carrental.rentservice.model.dto.Rent;
 import de.uniba.dsg.carrental.rentservice.service.RentService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,6 +36,19 @@ public class RentController {
     }
 
     @GetMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "400", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     @CircuitBreaker(name = "circuit-breaker-calculateRent", fallbackMethod = "calculateRentFallback")
     public ResponseEntity<?> calculateRent(@RequestParam String carCode, @RequestParam String from, @RequestParam String to) {
         try {
@@ -46,6 +63,8 @@ public class RentController {
             return new ResponseEntity<>(rent, HttpStatus.OK);
         } catch (BadRequestException | EntityNotFoundException | InvalidRequestParamException ex) {
             return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (Exception ex) {
+            return new ResponseEntity<>("Internal Server Error.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

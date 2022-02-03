@@ -4,6 +4,10 @@ import de.uniba.dsg.carrental.locationservice.exception.InvalidRequestParamExcep
 import de.uniba.dsg.carrental.locationservice.exception.EntityNotFoundException;
 import de.uniba.dsg.carrental.locationservice.model.data.Distance;
 import de.uniba.dsg.carrental.locationservice.service.DistanceService;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +27,22 @@ public class DistanceController {
     }
 
     @GetMapping
+    @ApiResponses(
+            value = {
+                    @ApiResponse(responseCode = "200", content = {
+                            @Content(schema = @Schema(type = "object"))
+                    }),
+                    @ApiResponse(responseCode = "400", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    }),
+                    @ApiResponse(responseCode = "404", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    }),
+                    @ApiResponse(responseCode = "500", content = {
+                            @Content(schema = @Schema(type = "string"))
+                    })
+            }
+    )
     public ResponseEntity<?> getDistance(@RequestParam String from, @RequestParam String to) {
         try {
             validateDistanceRequestParam(from, to);
