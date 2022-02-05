@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 @Component
 public class HttpRequestInterceptor  implements HandlerInterceptor {
@@ -33,7 +34,7 @@ public class HttpRequestInterceptor  implements HandlerInterceptor {
     }
 
     @Override
-    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) {
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws IOException {
         if (!isApiDocRequest(request.getRequestURL().toString())) {
             Long startTime = (Long)request.getAttribute(Constants.ATTRIBUTE_REQUEST_START_TIME);
             Long responseTime = System.currentTimeMillis() - startTime;
