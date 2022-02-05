@@ -1,6 +1,8 @@
 package de.uniba.dsg.carrental.rentservice.bean;
 
 import de.uniba.dsg.carrental.rentservice.Constants;
+import de.uniba.dsg.carrental.rentservice.model.dto.architectureextraction.RequestLogDto;
+import de.uniba.dsg.carrental.rentservice.properties.InstanceProperties;
 import de.uniba.dsg.carrental.rentservice.service.RequestLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,10 +21,12 @@ public class HttpRequestInterceptor  implements HandlerInterceptor {
     String apiDocPath;
 
     private final RequestLogService requestLogService;
+    private final InstanceProperties instanceProperties;
 
     @Autowired
-    public HttpRequestInterceptor(RequestLogService requestLogService) {
+    public HttpRequestInterceptor(RequestLogService requestLogService, InstanceProperties instanceProperties) {
         this.requestLogService = requestLogService;
+        this.instanceProperties = instanceProperties;
     }
 
     @Override
@@ -39,13 +43,16 @@ public class HttpRequestInterceptor  implements HandlerInterceptor {
             Long startTime = (Long)request.getAttribute(Constants.ATTRIBUTE_REQUEST_START_TIME);
             Long responseTime = System.currentTimeMillis() - startTime;
 
-            requestLogService.storeRequest(
-                    request.getHeader(Constants.HEADER_CLIENT_SERVICE_INSTANCE_ID),
+            requestLogService.storeRequest(new RequestLogDto(
+                    request.getHeader(Constants.HEADER_CLIENT_SERVICE_INSTANCE_ID) == null
+                            ? "EXTERNAL-CLIENT"
+                            : request.getHeader(Constants.HEADER_CLIENT_SERVICE_INSTANCE_ID),
+                    instanceProperties.getContainerId(),
                     response.getHeader(Constants.HEADER_METHOD_NAME),
                     response.getHeader(Constants.HEADER_RESPONSE_CODE),
                     startTime,
                     responseTime
-            );
+            ));
         }
     }
 

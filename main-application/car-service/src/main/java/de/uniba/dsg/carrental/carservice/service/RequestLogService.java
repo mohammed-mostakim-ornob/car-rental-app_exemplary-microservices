@@ -1,6 +1,6 @@
 package de.uniba.dsg.carrental.carservice.service;
 
-import de.uniba.dsg.carrental.carservice.properties.InstanceProperties;
+import de.uniba.dsg.carrental.carservice.model.dto.architectureextraction.RequestLogDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -13,8 +13,6 @@ import java.nio.file.StandardOpenOption;
 @Service
 public class RequestLogService {
 
-    private final InstanceProperties instanceProperties;
-
     @Value("${logging.directory}")
     String logsPath;
 
@@ -26,17 +24,13 @@ public class RequestLogService {
         Files.createDirectories(Paths.get(logsPath));
     }
 
-    public RequestLogService(InstanceProperties instanceProperties) {
-        this.instanceProperties = instanceProperties;
-    }
-
-    public void storeRequest(String clientId, String methodId, String responseCode, Long startTime, Long responseTime) throws IOException {
-        String msg = startTime
-                + "|" + (clientId == null ? "EXTERNAL-CLIENT" : clientId)
-                + "|" + instanceProperties.getContainerId()
-                + "|" + methodId
-                + "|" + responseCode
-                + "|" + responseTime
+    public void storeRequest(RequestLogDto requestLogObj) throws IOException {
+        String msg = requestLogObj.getResponseTime()
+                + "|" + (requestLogObj.getClientId() == null ? "EXTERNAL-CLIENT" : requestLogObj.getClientId())
+                + "|" + requestLogObj.getServerId()
+                + "|" + requestLogObj.getMethodId()
+                + "|" + requestLogObj.getResponseCode()
+                + "|" + requestLogObj.getResponseTime()
                 + "\n";
 
         Files.writeString(Paths.get(logsPath + "/" + fileName),
