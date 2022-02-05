@@ -8,7 +8,7 @@
 		<version>2.6.3</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>microservice.architecture.extraction</groupId>
+	<groupId>de.uniba.dsg.microservice.architecture.extraction</groupId>
 	<artifactId>management-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>management-service</name>
