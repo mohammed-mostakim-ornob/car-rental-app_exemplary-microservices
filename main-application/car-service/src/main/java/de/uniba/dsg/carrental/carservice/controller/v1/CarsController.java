@@ -2,7 +2,7 @@ package de.uniba.dsg.carrental.carservice.controller.v1;
 
 import de.uniba.dsg.carrental.carservice.Constants;
 import de.uniba.dsg.carrental.carservice.exception.EntityNotFoundException;
-import de.uniba.dsg.carrental.carservice.helper.Helper;
+import de.uniba.dsg.carrental.carservice.architectureextraction.helper.ArchitectureExtractionHelper;
 import de.uniba.dsg.carrental.carservice.model.data.Car;
 import de.uniba.dsg.carrental.carservice.service.CarService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -63,16 +63,16 @@ public class CarsController {
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CARS)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_CARS)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
                     )))
                     .body(CollectionModel.of(cars, link));
         } catch (Exception ex) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CARS)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_CARS)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
                     )))
                     .body("Internal Server Error.");
@@ -107,24 +107,24 @@ public class CarsController {
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
                     )))
                     .body(car);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_NOT_FOUND)
                     )))
                     .body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_CAR)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
                     )))
                     .body("Internal Server Error.");

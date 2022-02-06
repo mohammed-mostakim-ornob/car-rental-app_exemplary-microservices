@@ -5,7 +5,7 @@ import de.uniba.dsg.carrental.rentservice.exception.InvalidRequestParamException
 import de.uniba.dsg.carrental.rentservice.model.dto.Car;
 import de.uniba.dsg.carrental.rentservice.model.dto.Distance;
 import de.uniba.dsg.carrental.rentservice.model.dto.Rent;
-import de.uniba.dsg.carrental.rentservice.properties.InstanceProperties;
+import de.uniba.dsg.carrental.rentservice.architectureextraction.properties.InstanceProperties;
 import de.uniba.dsg.carrental.rentservice.proxy.CarServiceProxy;
 import de.uniba.dsg.carrental.rentservice.proxy.LocationServiceProxy;
 import org.springframework.beans.factory.annotation.Autowired;

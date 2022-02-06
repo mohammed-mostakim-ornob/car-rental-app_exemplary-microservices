@@ -3,7 +3,7 @@ package de.uniba.dsg.carrental.locationservice.controller.v1;
 import de.uniba.dsg.carrental.locationservice.Constants;
 import de.uniba.dsg.carrental.locationservice.exception.InvalidRequestParamException;
 import de.uniba.dsg.carrental.locationservice.exception.EntityNotFoundException;
-import de.uniba.dsg.carrental.locationservice.helper.Helper;
+import de.uniba.dsg.carrental.locationservice.architectureextraction.helper.ArchitectureExtractionHelper;
 import de.uniba.dsg.carrental.locationservice.model.data.Distance;
 import de.uniba.dsg.carrental.locationservice.service.DistanceService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -11,7 +11,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.CollectionModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -68,32 +67,32 @@ public class DistanceController {
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
                     )))
                     .body(distance);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_NOT_FOUND)
                     )))
                     .body(ex.getMessage());
         } catch (InvalidRequestParamException ex) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_BAD_REQUEST)
                     )))
                     .body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
                     )))
                     .body("Internal Server Error.");

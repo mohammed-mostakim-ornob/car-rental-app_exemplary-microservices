@@ -2,7 +2,7 @@ package de.uniba.dsg.carrental.locationservice.controller.v1;
 
 import de.uniba.dsg.carrental.locationservice.Constants;
 import de.uniba.dsg.carrental.locationservice.exception.EntityNotFoundException;
-import de.uniba.dsg.carrental.locationservice.helper.Helper;
+import de.uniba.dsg.carrental.locationservice.architectureextraction.helper.ArchitectureExtractionHelper;
 import de.uniba.dsg.carrental.locationservice.model.data.Location;
 import de.uniba.dsg.carrental.locationservice.service.LocationService;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -60,16 +60,16 @@ public class LocationsController {
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_LOCATIONS)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_LOCATIONS)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
                     )))
                     .body(CollectionModel.of(locations, link));
         } catch (Exception ex) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_LOCATIONS)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_LOCATIONS)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
                     )))
                     .body("Internal Server Error.");
@@ -100,24 +100,24 @@ public class LocationsController {
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_LOCATION)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_LOCATION)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
                     )))
                     .body(location);
         } catch (EntityNotFoundException ex) {
             return ResponseEntity
                     .status(HttpStatus.NOT_FOUND)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_LOCATION)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_LOCATION)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_NOT_FOUND)
                     )))
                     .body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_LOCATION)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_LOCATION)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
                     )))
                     .body("Internal Server Error.");

@@ -5,7 +5,7 @@ import de.uniba.dsg.carrental.rentservice.Constants;
 import de.uniba.dsg.carrental.rentservice.exception.BadRequestException;
 import de.uniba.dsg.carrental.rentservice.exception.EntityNotFoundException;
 import de.uniba.dsg.carrental.rentservice.exception.InvalidRequestParamException;
-import de.uniba.dsg.carrental.rentservice.helper.Helper;
+import de.uniba.dsg.carrental.rentservice.architectureextraction.helper.ArchitectureExtractionHelper;
 import de.uniba.dsg.carrental.rentservice.model.dto.Rent;
 import de.uniba.dsg.carrental.rentservice.service.RentService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -65,24 +65,24 @@ public class RentController {
 
             return ResponseEntity
                     .status(HttpStatus.OK)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
                     )))
                     .body(rent);
         } catch (BadRequestException | EntityNotFoundException | InvalidRequestParamException ex) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_BAD_REQUEST)
                     )))
                     .body(ex.getMessage());
         } catch (Exception ex) {
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .headers(Helper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
                     )))
                     .body("Internal Server Error.");
@@ -92,8 +92,8 @@ public class RentController {
     public ResponseEntity<?> getRentFallback(Exception ex) {
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .headers(Helper.setHttpHeaders(Map.ofEntries(
-                        Map.entry(Constants.HEADER_METHOD_NAME, Helper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
+                .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
+                        Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_RENT)),
                         Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_INTERNAL_SERVER_ERROR)
                 )))
                 .body("Rent can not be calculated due to internal server error.");
