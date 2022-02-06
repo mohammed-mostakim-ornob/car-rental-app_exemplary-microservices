@@ -16,22 +16,20 @@ public class Request {
     @Id
     @GeneratedValue
     private Long id;
-    private String from;
-    private String to;
-    private int count;
-    private int average;
-    private int max;
-    private int min;
+    private Long count;
+    private Double average;
+    private Long max;
+    private Long min;
+
+    @Relationship(type = "client", direction = Relationship.Direction.OUTGOING)
+    private ServiceInstance from;
+
+    @Relationship(type = "server", direction = Relationship.Direction.OUTGOING)
+    private ServiceInstance to;
 
     @Relationship(type = "has_method", direction = Relationship.Direction.OUTGOING)
     private Method method;
 
     @Relationship(type = "has_response", direction = Relationship.Direction.OUTGOING)
     private Response response;
-
-    @Relationship(type = "client", direction = Relationship.Direction.OUTGOING)
-    private ServiceInstance client;
-
-    @Relationship(type = "server", direction = Relationship.Direction.OUTGOING)
-    private ServiceInstance server;
 }

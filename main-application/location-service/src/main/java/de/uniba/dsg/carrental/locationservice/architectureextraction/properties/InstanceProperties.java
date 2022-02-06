@@ -18,5 +18,6 @@ public class InstanceProperties {
     private String basePath;
     private String containerId;
     private String technology;
+    private String requestLogEndpoint;
     private String[] protocols;
 }

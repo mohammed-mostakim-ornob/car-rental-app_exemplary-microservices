@@ -51,6 +51,7 @@ public class ArchitectureExtractionService {
                 Set.of(instanceProperties.getProtocols()),
                 instanceProperties.getContainerId(),
                 instanceProperties.getTechnology(),
+                instanceProperties.getRequestLogEndpoint(),
                 LocalDateTime.now(),
                 null,
                 instanceProperties.getHost(),

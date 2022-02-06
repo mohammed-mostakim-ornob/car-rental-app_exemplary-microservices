@@ -3,13 +3,11 @@ package de.uniba.dsg.microservice.architecture.extraction.managementservice.serv
 import de.uniba.dsg.microservice.architecture.extraction.managementservice.model.dto.*;
 import de.uniba.dsg.microservice.architecture.extraction.managementservice.model.entity.*;
 import de.uniba.dsg.microservice.architecture.extraction.managementservice.repository.*;
-import microservice.architecture.extraction.managementservice.model.dto.*;
-import microservice.architecture.extraction.managementservice.model.entity.*;
-import microservice.architecture.extraction.managementservice.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -51,6 +49,10 @@ public class InstanceService {
         this.serviceRepository = serviceRepository;
     }
 
+    public List<ServiceInstance> getAllInstances() {
+        return serviceInstanceRepository.findAll();
+    }
+
     public void addInstance(ServiceInstanceDto instanceDto) {
         ServiceInstance newServiceInstance = new ServiceInstance(
                 null,
@@ -58,6 +60,7 @@ public class InstanceService {
                 instanceDto.getBasePath(),
                 instanceDto.getContainerId(),
                 instanceDto.getTechnology(),
+                instanceDto.getRequestLogEndpoint(),
                 instanceDto.getProtocols(),
                 instanceDto.getStartTime(),
                 instanceDto.getEndTime(),

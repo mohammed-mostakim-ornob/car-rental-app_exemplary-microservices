@@ -16,6 +16,7 @@ public class ServiceInstanceDto {
     private Set<String> protocols;
     private String containerId;
     private String technology;
+    private String requestLogEndpoint;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
 

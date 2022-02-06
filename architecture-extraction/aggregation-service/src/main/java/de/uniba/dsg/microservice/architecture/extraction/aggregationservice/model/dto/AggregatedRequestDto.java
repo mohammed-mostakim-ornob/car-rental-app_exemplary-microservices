@@ -7,12 +7,13 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestLogDto {
+public class AggregatedRequestDto {
     private String clientId;
     private String serverId;
     private String methodId;
     private String responseCode;
-    private Long timestamp;
-    private Long responseTime;
-    public record RequestLogKeys(String clientId, String serverId, String methodId, String responseCode) {}
+    private Long count;
+    private Double average;
+    private Long minimum;
+    private Long maximum;
 }
