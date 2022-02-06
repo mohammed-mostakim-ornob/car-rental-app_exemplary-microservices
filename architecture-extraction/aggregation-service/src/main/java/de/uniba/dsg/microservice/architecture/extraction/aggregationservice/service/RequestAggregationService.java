@@ -22,6 +22,9 @@ public class RequestAggregationService {
     @Value("${management-service.get-instances-endpoint}")
     private String getInstancesEndpoint;
 
+    @Value("${api-endpoint.path}")
+    String apiEndpointPath;
+
     public RequestAggregationService(){
         restTemplate = new RestTemplate();
     }
@@ -51,7 +54,7 @@ public class RequestAggregationService {
     private RequestLogDto[] retrieveInstanceRequestLogs(ServiceInstanceDto instance) {
         try {
             return restTemplate
-                    .getForEntity((instance.getBasePath() + instance.getRequestLogEndpoint()), RequestLogDto[].class)
+                    .getForEntity((apiEndpointPath + instance.getRequestLogEndpoint()), RequestLogDto[].class)
                     .getBody();
         } catch (Exception ex) {
             return new RequestLogDto[0];
