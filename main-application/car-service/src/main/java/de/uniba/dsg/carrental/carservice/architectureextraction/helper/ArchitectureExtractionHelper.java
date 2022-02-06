@@ -26,4 +26,10 @@ public class ArchitectureExtractionHelper {
 
         return httpHeaders;
     }
+
+    public static String buildMethodUniqueName(String methodName) {
+        return applicationProperties.getUniqueId()
+                + "_"
+                + methodName;
+    }
 }
