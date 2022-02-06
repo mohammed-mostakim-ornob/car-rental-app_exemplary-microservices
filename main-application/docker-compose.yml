@@ -67,6 +67,8 @@ services:
       - spring.datasource.username=admin
       - spring.datasource.password=admin
       - spring.datasource.driver-class-name=org.postgresql.Driver
+
+      - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
     depends_on:
       - config
       - car-db
@@ -78,6 +80,8 @@ services:
     restart: on-failure
     networks:
       - car-rental
+    volumes:
+      - service_bkp_car:/var/lib/car-service
 
   location:
     build:
@@ -95,6 +99,8 @@ services:
       - spring.datasource.username=admin
       - spring.datasource.password=admin
       - spring.datasource.driver-class-name=org.postgresql.Driver
+
+      - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
     depends_on:
       - config
       - location-db
@@ -106,6 +112,8 @@ services:
     restart: on-failure
     networks:
       - car-rental
+    volumes:
+      - service_bkp_location:/var/lib/location-service
 
   rent:
     build:
@@ -118,6 +126,8 @@ services:
       - active_profiles=default
       - config_server=http://config:8888
       - eureka_default_zone=http://discovery:8761/eureka
+
+      - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
     depends_on:
       - discovery
       - config
@@ -131,6 +141,8 @@ services:
     restart: on-failure
     networks:
       - car-rental
+    volumes:
+      - service_bkp_rent:/var/lib/rent-service
 
   api-gateway:
     build:
@@ -161,3 +173,6 @@ networks:
 volumes:
   postgres_bkp_car:
   postgres_bkp_location:
+  service_bkp_car:
+  service_bkp_location:
+  service_bkp_rent:

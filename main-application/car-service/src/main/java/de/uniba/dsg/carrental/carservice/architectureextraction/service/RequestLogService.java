@@ -28,7 +28,7 @@ public class RequestLogService {
     }
 
     public void storeRequest(RequestLogDto requestLogObj) throws IOException {
-        String msg = requestLogObj.getResponseTime()
+        String msg = requestLogObj.getTimestamp()
                 + "|" + (requestLogObj.getClientId() == null ? "EXTERNAL-CLIENT" : requestLogObj.getClientId())
                 + "|" + requestLogObj.getServerId()
                 + "|" + requestLogObj.getMethodId()

@@ -3,9 +3,9 @@ package de.uniba.dsg.carrental.locationservice.architectureextraction.service;
 import de.uniba.dsg.carrental.locationservice.architectureextraction.model.ServiceDto;
 import de.uniba.dsg.carrental.locationservice.architectureextraction.model.ServiceInstanceDto;
 import de.uniba.dsg.carrental.locationservice.architectureextraction.properties.ApplicationProperties;
-import de.uniba.dsg.carrental.locationservice.architectureextraction.properties.ArchitectureExtractionProperties;
 import de.uniba.dsg.carrental.locationservice.architectureextraction.properties.InstanceProperties;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
@@ -19,16 +19,17 @@ public class ArchitectureExtractionService {
     private final ApiDocService apiDocService;
     private final InstanceProperties instanceProperties;
     private final ApplicationProperties applicationProperties;
-    private final ArchitectureExtractionProperties architectureExtractionProperties;
 
     private final RestTemplate restTemplate;
 
+    @Value("${architecture-extraction.create-instance-endpoint}")
+    public String architectureExtractionCreateInstanceEndpoint;
+
     @Autowired
-    public ArchitectureExtractionService(ApiDocService apiDocService, InstanceProperties instanceProperties, ApplicationProperties applicationProperties, ArchitectureExtractionProperties architectureExtractionProperties) {
+    public ArchitectureExtractionService(ApiDocService apiDocService, InstanceProperties instanceProperties, ApplicationProperties applicationProperties) {
         this.apiDocService = apiDocService;
         this.instanceProperties = instanceProperties;
         this.applicationProperties = applicationProperties;
-        this.architectureExtractionProperties = architectureExtractionProperties;
 
         restTemplate = new RestTemplate();
     }
@@ -37,11 +38,11 @@ public class ArchitectureExtractionService {
         try {
             restTemplate
                     .postForEntity(
-                            architectureExtractionProperties.getManagementServiceBaseUrl() + architectureExtractionProperties.getCreateInstanceEndpoint()
-                            , getServiceInstanceObj()
-                            , String.class
+                            architectureExtractionCreateInstanceEndpoint,
+                            getServiceInstanceObj(),
+                            String.class
                     );
-        } catch (ResourceAccessException e) { }
+        } catch (ResourceAccessException ignored) { System.out.println(ignored.getMessage()); }
     }
 
     private ServiceInstanceDto getServiceInstanceObj() throws UnknownHostException {
