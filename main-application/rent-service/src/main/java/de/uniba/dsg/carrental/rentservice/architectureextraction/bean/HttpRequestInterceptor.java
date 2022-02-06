@@ -13,12 +13,13 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class HttpRequestInterceptor  implements HandlerInterceptor {
 
-    @Value("${springdoc.api-docs.path}")
-    String apiDocPath;
+    @Value("${logging.ignore-paths}")
+    String[] ignorePaths;
 
     private final RequestLogService requestLogService;
     private final InstanceProperties instanceProperties;
@@ -31,7 +32,7 @@ public class HttpRequestInterceptor  implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (!isApiDocRequest(request.getRequestURL().toString()))
+        if (isNotIgnorePath(request.getRequestURL().toString()))
             request.setAttribute(Constants.ATTRIBUTE_REQUEST_START_TIME, System.currentTimeMillis());
 
         return true;
@@ -39,7 +40,7 @@ public class HttpRequestInterceptor  implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws IOException {
-        if (!isApiDocRequest(request.getRequestURL().toString())) {
+        if (isNotIgnorePath(request.getRequestURL().toString())) {
             Long startTime = (Long)request.getAttribute(Constants.ATTRIBUTE_REQUEST_START_TIME);
             Long responseTime = System.currentTimeMillis() - startTime;
 
@@ -56,7 +57,8 @@ public class HttpRequestInterceptor  implements HandlerInterceptor {
         }
     }
 
-    private boolean isApiDocRequest(String requestUrl) {
-        return requestUrl.endsWith(apiDocPath);
+    private boolean isNotIgnorePath(String requestUrl) {
+        return Arrays.stream(ignorePaths)
+                .noneMatch(requestUrl::endsWith);
     }
 }

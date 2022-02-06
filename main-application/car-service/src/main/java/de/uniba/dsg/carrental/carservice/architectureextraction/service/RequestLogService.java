@@ -24,6 +24,7 @@ public class RequestLogService {
     @PostConstruct
     public void init() throws IOException {
         Files.createDirectories(Paths.get(logsPath));
+        Files.createFile(Paths.get(getLogFilePath()));
     }
 
     public void storeRequest(RequestLogDto requestLogObj) throws IOException {
