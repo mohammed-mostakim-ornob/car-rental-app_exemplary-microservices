@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/aggregation-service")
+@RequestMapping("/aggregation-service/request-aggregation")
 public class AggregateRequestsController {
 
     private final RequestAggregationService requestAggregationService;

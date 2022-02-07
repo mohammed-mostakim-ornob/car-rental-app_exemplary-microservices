@@ -36,9 +36,6 @@ public class DistanceController {
                     @ApiResponse(responseCode = "200", content = {
                             @Content(schema = @Schema(type = "object"))
                     }),
-                    @ApiResponse(responseCode = "400", content = {
-                            @Content(schema = @Schema(type = "string"))
-                    }),
                     @ApiResponse(responseCode = "404", content = {
                             @Content(schema = @Schema(type = "string"))
                     }),
@@ -72,15 +69,7 @@ public class DistanceController {
                             Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_OK)
                     )))
                     .body(distance);
-        } catch (EntityNotFoundException ex) {
-            return ResponseEntity
-                    .status(HttpStatus.NOT_FOUND)
-                    .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
-                            Map.entry(Constants.HEADER_METHOD_NAME, ArchitectureExtractionHelper.buildMethodUniqueName(Constants.METHOD_GET_DISTANCE)),
-                            Map.entry(Constants.HEADER_RESPONSE_CODE, Constants.RESPONSE_STATUS_NOT_FOUND)
-                    )))
-                    .body(ex.getMessage());
-        } catch (InvalidRequestParamException ex) {
+        } catch (InvalidRequestParamException | EntityNotFoundException ex) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .headers(ArchitectureExtractionHelper.setHttpHeaders(Map.ofEntries(
