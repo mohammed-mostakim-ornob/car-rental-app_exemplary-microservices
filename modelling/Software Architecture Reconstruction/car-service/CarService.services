@@ -1,0 +1,21 @@
+import datatypes from "CarService.data" as CarService
+
+functional microservice de.uniba.dsg.carrental.CarService {
+	interface CarsController {
+		getCars(sync out response: CarService::car.CarCollectionModel);
+		
+		getCar(
+			sync code: string,
+			sync out response: CarService::car.Car
+		);
+	}
+	
+	interface ManufacturersController {
+		getManufacturers(sync  out response: CarService::manufacturer.ManufacturerCollectionModel);
+		
+		getManufacturerCars(
+			sync name: string,
+			sync out response: CarService::car.CarCollectionModel
+		);
+	}
+}
