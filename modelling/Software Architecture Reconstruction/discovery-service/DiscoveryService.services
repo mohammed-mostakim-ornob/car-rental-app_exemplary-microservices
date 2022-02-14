@@ -1,0 +1,5 @@
+infrastructure microservice de.uniba.dsg.carrental.DiscoveryService {
+	interface DefaultInterface {
+		DefaultOperation();
+	}
+}

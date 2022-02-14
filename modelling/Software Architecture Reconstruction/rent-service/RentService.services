@@ -1,6 +1,17 @@
 import datatypes from "RentService.data" as RentService
+import microservices from "../discovery-service/DiscoveryService.services" as DiscoveryService
+import microservices from "../config-service/ConfigService.services" as ConfigService
+import microservices from "../car-service/CarService.services" as CarService
+import microservices from "../location-service/LocationService.services" as LocationService
 
 functional microservice de.uniba.dsg.carrental.RentService {
+	required microservices {
+		DiscoveryService::de.uniba.dsg.carrental.DiscoveryService,
+		ConfigService::de.uniba.dsg.carrental.ConfigService,
+		CarService::de.uniba.dsg.carrental.CarService,
+		LocationService::de.uniba.dsg.carrental.LocationService
+	}
+	
 	interface RentController {
 		getRent(
 			sync carCode: string,

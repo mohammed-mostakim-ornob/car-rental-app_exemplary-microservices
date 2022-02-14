@@ -1,0 +1,14 @@
+import microservices from "ConfigService.services" as ConfigService
+import technology from "../technology/java2.technology" as java
+
+@technology(java)
+ConfigService::de.uniba.dsg.carrental.ConfigService {
+	aspects {
+		java::_aspects.ServerPort(8888);
+		
+		java::_aspects.SpringCloudConfigServer(
+			gitUri = "https://github.com/mohammed-mostakim-ornob/car-rental-config",
+			defaultLabel = "main"
+		);
+	}
+}

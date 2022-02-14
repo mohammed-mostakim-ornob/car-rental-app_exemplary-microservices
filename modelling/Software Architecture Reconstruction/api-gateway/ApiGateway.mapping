@@ -1,0 +1,24 @@
+import microservices from "ApiGateway.services" as ApiGateway
+import technology from "../technology/java2.technology" as java
+
+@technology(java)
+ApiGateway::de.uniba.dsg.carrental.ApiGateway {
+	aspects {
+		java::_aspects.ServerPort(8000);
+		java::_aspects.ApplicationName("api-gateway");
+		java::_aspects.Profile("dev, prod");
+		java::_aspects.SpringConfigImport("configserver:");
+		java::_aspects.SpringCloudConfigUri("http://localhost:8888");
+		
+		java::_aspects.EurekaClient(
+			fetchRegistry = true,
+			registerWithEureka = true,
+			serviceUrlDefaultZone = "http://localhost:8761/eureka"
+		);
+		
+		java::_aspects.SpringCloudGatewayHttpClient(
+			responseTimeout = 5000,
+			connectTimeout = 5000
+		);
+	}
+}

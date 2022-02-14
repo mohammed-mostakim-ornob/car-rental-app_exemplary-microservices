@@ -126,7 +126,22 @@ technology java {
 		aspect EurekaClient for microservices {
 			boolean fetchRegistry <mandatory>;
 			boolean registerWithEureka <mandatory>;
-			string serviceUrlDefaultZone <mandatory>;
+			string serviceUrlDefaultZone;
+		}
+		
+		aspect FeignClientConfigDefault for microservices {
+			int readTimeout <mandatory>;
+			int connectTimeout <mandatory>;
+		}
+		
+		aspect SpringCloudGatewayHttpClient for microservices {
+			int responseTimeout <mandatory>;
+			int connectTimeout <mandatory>;
+		}
+		
+		aspect SpringCloudConfigServer for microservices {
+			string gitUri <mandatory>;
+			string defaultLabel <mandatory>;
 		}
 		
 		aspect SpringConfigImport for microservices {
@@ -144,11 +159,6 @@ technology java {
 		aspect SpringJpa for microservices {
 			boolean showSql <mandatory>;
 			string hibernateDdlAuto <mandatory>;
-		}
-		
-		aspect FeignClientConfigDefault for microservices {
-			int readTimeout <mandatory>;
-			int connectTimeout <mandatory>;
 		}
 		
 		aspect SpringDocPath for microservices {
