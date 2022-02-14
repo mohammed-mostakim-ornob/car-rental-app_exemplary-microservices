@@ -19,7 +19,6 @@ context car {
 	}
 	
 	structure CarService <domainService> {
-		hide CarRepository carRepository,
 		function CarList getAllCars,
 		function Car getCar(string code),
 		function CarList getCarsByManufacturer(string manufacturerName)
@@ -43,7 +42,6 @@ context manufacturer {
 	}
 	
 	structure ManufacturerService <domainService> {
-		hide ManufacturerRepository manufacturerRepository,
 		function Manufacturer getAllManufacturers,
 		function Manufacturer getManufacturer(string name)
 	}

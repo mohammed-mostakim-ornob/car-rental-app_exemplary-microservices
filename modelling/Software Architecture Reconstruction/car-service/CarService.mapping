@@ -5,6 +5,7 @@ import technology from "../technology/java2.technology" as java
 type CarService::CarService::car.Car {
 	aspects {
 		java::_aspects.Table("car");
+		java::_aspects.RepresentationModel;
 	}
 	
 	code {
@@ -38,12 +39,31 @@ type CarService::CarService::car.Car {
 type CarService::CarService::manufacturer.Manufacturer {
 	aspects {
 		java::_aspects.Table("manufacturer");
+		java::_aspects.RepresentationModel;
 	}
 	
 	name {
 		aspects {
 			java::_aspects.Id;
 			java::_aspects.NotNull;
+		}
+	}
+}
+
+@technology(java)
+type CarService::CarService::car.CarService {
+	op getCar {
+		aspects {
+			java::_aspects.Throws("EntityNotFoundException");
+		}
+	}
+}
+
+@technology(java)
+type CarService::CarService::manufacturer.ManufacturerService {
+	op getManufacturer {
+		aspects {
+			java::_aspects.Throws("EntityNotFoundException");
 		}
 	}
 }
@@ -65,7 +85,7 @@ CarService::de.uniba.dsg.carrental.CarService {
 		);
 		
 		java::_aspects.SpringDataSource(
-			url = "jdbc:postgresql://localhost:5433/location_db",
+			url = "jdbc:postgresql://localhost:5432/car_db",
 			username = "admin",
 			password = "admin",
 			driverClassName = "org.postgresql.Driver"
@@ -77,7 +97,6 @@ CarService::de.uniba.dsg.carrental.CarService {
 			serviceUrlDefaultZone = "http://localhost:8761/eureka"
 		);
 		
-		
 		java::_aspects.CustomProperty(name="application.title", value="${spring.application.name}");
 		java::_aspects.CustomProperty(name="application.version", value="1.0.0");
 		java::_aspects.CustomProperty(name="application.description", value="Car Service of Car Rental Microservices Application");
@@ -85,12 +104,12 @@ CarService::de.uniba.dsg.carrental.CarService {
 		java::_aspects.CustomProperty(name="application.domain", value="car-rental/car-service");
 		java::_aspects.CustomProperty(name="application.contact-person.name", value="Master Developer");
 		java::_aspects.CustomProperty(name="application.contact-person.email", value="master.developer@carrental.com");
-		java::_aspects.CustomProperty(name="application.technology-stackL", value="Java Springboot0");
+		java::_aspects.CustomProperty(name="application.technology-stack", value="Java Springboot0");
 		java::_aspects.CustomProperty(name="application.creation-date", value="01/01/20220");
 		
 		java::_aspects.CustomProperty(name="instance.port", value="${server_port}");
 		java::_aspects.CustomProperty(name="instance.base-path", value="http://localhost:${server_port}");
-		java::_aspects.CustomProperty(name="instance.host", value="docker-default0");
+		java::_aspects.CustomProperty(name="instance.host", value="docker-default");
 		java::_aspects.CustomProperty(name="instance.region", value="default");
 		java::_aspects.CustomProperty(name="instance.protocols[0]", value="http");
 		java::_aspects.CustomProperty(name="instance.technology", value="Springboot");
@@ -102,7 +121,7 @@ CarService::de.uniba.dsg.carrental.CarService {
 		java::_aspects.CustomProperty(name="logging.get-request-logs.path", value="/car-service/architecture-extraction/request-logs");
 		java::_aspects.CustomProperty(name="logging.ignore-paths", value="${springdoc.api-docs.path},${logging.get-request-logs.path}");
 		
-		java::_aspects.CustomProperty(name="architecture-extraction.create-instance-endpointL", value="http://localhost:9001/management-service/ServiceInstancess");
+		java::_aspects.CustomProperty(name="architecture-extraction.create-instance-endpoint", value="http://localhost:9001/management-service/ServiceInstancess");
 	}
 	
 	interface CarsController {
@@ -123,7 +142,14 @@ CarService::de.uniba.dsg.carrental.CarService {
 		}
 		
 		parameters {
-			complex response { aspects { java::_aspects.ResponseEntity; } }
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_500;
+				}
+			}
 		}
 	}
 	
@@ -137,8 +163,20 @@ CarService::de.uniba.dsg.carrental.CarService {
 		}
 		
 		parameters {
-			primitive code { aspects { java::_aspects.PathVariable; } }
-			complex response { aspects { java::_aspects.ResponseEntity; } }
+			primitive code {
+				aspects {
+					java::_aspects.PathVariable("code");
+				}
+			}
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_404;
+					java::_aspects.HttpCode_500;
+				}
+			}
 		}
 	}
 	
@@ -148,7 +186,14 @@ CarService::de.uniba.dsg.carrental.CarService {
 		}
 		
 		parameters {
-			complex response { aspects { java::_aspects.ResponseEntity; } }
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_500;
+				}
+			}
 		}
 	}
 	
@@ -162,8 +207,20 @@ CarService::de.uniba.dsg.carrental.CarService {
 		}
 		
 		parameters {
-			primitive name { aspects { java::_aspects.PathVariable; } }
-			complex response { aspects { java::_aspects.ResponseEntity; } }
+			primitive name {
+				aspects {
+					java::_aspects.PathVariable("name");
+				}
+			}
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_404;
+					java::_aspects.HttpCode_500;
+				}
+			}
 		}
 	}
 }
