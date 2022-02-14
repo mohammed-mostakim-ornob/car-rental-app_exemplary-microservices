@@ -1,0 +1,68 @@
+import microservices from "RentService.services" as RentService
+import technology from "../technology/docker2.technology" as containerTechnology
+import technology from "../technology/java2.technology" as protocolTechnology
+
+@technology(containerTechnology)
+@technology(protocolTechnology)
+container RentServiceContainer deployment technology containerTechnology::_deployment.Docker deploys RentService::de.uniba.dsg.carrental.RentService {
+	aspects {
+		containerTechnology::_aspects.Dockerfile(
+			'#FROM openjdk:16-slim
+			FROM maven:3.8.2-openjdk-16 AS build-env
+			
+			#making work directory
+			RUN mkdir -p /usr/src/app/services/rent-service
+			
+			#defining work directory
+			WORKDIR /usr/src/app/services/rent-service
+			
+			
+			#copy to the Project Directory
+			COPY  ./rent-service /usr/src/app/services/rent-service
+			
+			
+			#building app
+			RUN mvn clean package
+			
+			#assigning entry point
+			ENTRYPOINT ["java", "-jar", "/usr/src/app/services/rent-service/target/rent-service-0.0.1-SNAPSHOT.jar"]'
+		);
+
+		containerTechnology::_aspects.ComposePart(
+			'rent:
+		        build:
+		            context: ./
+		            dockerfile: ./rent-service/Dockerfile
+		        ports:
+		            - "8300:8300"
+		        environment:
+		            - server_port=8300
+		            - active_profiles=default
+		            - config_server=http://config:8888
+		            - eureka_default_zone=http://discovery:8761/eureka
+		
+		            - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
+		        depends_on:
+		            - discovery
+		            - config
+		            - car
+		            - location
+		        links:
+		            - discovery
+		            - config
+		            - car
+		            - location
+		        restart: on-failure
+		        networks:
+		            - car-rental
+		        volumes:
+		            - service_bkp_rent:/var/lib/rent-service'
+		);
+	}
+	
+	default values {
+		basic endpoints {
+			protocolTechnology::_protocols.rest: "http://localhost:8300";
+		}
+	}
+}

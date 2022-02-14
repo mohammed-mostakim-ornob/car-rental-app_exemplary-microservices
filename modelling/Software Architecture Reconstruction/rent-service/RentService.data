@@ -1,0 +1,28 @@
+context rent {
+	structure Car <valueObject> {
+		string code,
+		string model,
+		double rentPerKilo
+	}
+	
+	structure Location <valueObject> {
+		string code,
+		string name
+	}	
+	
+	structure Rent <valueObject> {
+		string carCode,
+		string fromLocationCode,
+		string toLocationCode,
+		double rent
+	}
+	
+	structure Distance <valueObject> {
+		Location fromLocation,
+		Location toLocation
+	}
+	
+	structure RentService <domainService> {
+		function Rent calculateRent(string carCode, string fromLocationCode, string toLocationCode)
+	}
+}

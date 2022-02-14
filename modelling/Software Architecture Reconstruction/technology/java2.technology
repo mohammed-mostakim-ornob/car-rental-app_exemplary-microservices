@@ -22,6 +22,7 @@ technology java {
 
 	protocols {
 		sync rest data formats json default with format json;
+		sync httpProxy data formats json default with format json;
 	}
 
 	service aspects {
@@ -29,8 +30,27 @@ technology java {
 		//aspect Embeddable for types;
 		//aspect ResourceSupport for types;
 		aspect Table for types {
-			string name;
+			string value <mandatory>;
 		}
+		
+		aspect JoinColumn for fields {
+			string value <mandatory>;
+		}
+		
+		aspect Id for fields;
+		
+		aspect NotNull for fields;
+		
+		aspect ManyToOne for fields;
+		
+		aspect RepresentationModel for types;
+		
+		aspect Throws for domainOperations, operations {
+			string value <mandatory>;
+		}
+		
+		aspect Optional for domainOperations;
+		
 		//aspect UserDetails for types, domainParameters;
 
 		//aspect Array for fields;
@@ -59,9 +79,6 @@ technology java {
 		//	string name;
 		//}
 		//aspect JsonUnwrapped for fields;
-		aspect Id for fields;
-		aspect NotNull for fields;
-		aspect ManyToOne for fields;
 		//aspect OneToMany for fields {
 		//	string cascade = "ALL";
 		//	string fetch;
@@ -72,9 +89,25 @@ technology java {
 		//aspect Valid for fields;
 
 		//aspect Multimap for domainOperations;
-		//aspect Optional for domainParameters, parameters;
+		
 		//aspect static for domainOperations;
-		aspect ResponseEntity for domainParameters, parameters {
+		aspect ResponseEntity for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_200 for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_400 for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_404 for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_500 for parameters {
 			selector(exchange_pattern = out);
 		}
 		
@@ -113,6 +146,11 @@ technology java {
 			string hibernateDdlAuto <mandatory>;
 		}
 		
+		aspect FeignClientConfigDefault for microservices {
+			int readTimeout <mandatory>;
+			int connectTimeout <mandatory>;
+		}
+		
 		aspect SpringDocPath for microservices {
 			string value <mandatory>;
 		}
@@ -131,9 +169,25 @@ technology java {
 
 		aspect GetMapping for operations;
 
-		aspect PathVariable for parameters {
+		aspect PathVariable for parameters {			
 			selector(exchange_pattern = in);
+			
+			string value <mandatory>;
 		}
+		
+		aspect RequestParam for parameters {
+			selector(exchange_pattern = in);
+		
+			string value <mandatory>;
+			string defaultValue = "";
+		}
+		
+		aspect Header for parameters {
+			selector(exchange_pattern = in);
+			
+			string value <mandatory>;
+		}
+		
 		//aspect ResponseStatus for parameters {
 		//	selector(exchange_pattern = out);
 

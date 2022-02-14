@@ -1,0 +1,20 @@
+import datatypes from "LocationService.data" as LocationService
+
+functional microservice de.uniba.dsg.carrental.LocationService {
+	interface LocationsController {
+		getLocations(sync out response: LocationService::location.LocationCollectionModel);
+		
+		getLocation(
+			sync code: string,
+			sync out response: LocationService::location.Location
+		);
+	}
+	
+	interface DistanceController {
+		getDistance(
+			sync fromLocationCode: string,
+			sync toLocationCode: string,
+			sync  out response: LocationService::distance.Distance
+		);
+	}
+}
