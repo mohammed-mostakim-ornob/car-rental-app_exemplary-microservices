@@ -1,0 +1,226 @@
+import microservices from "CarService.services" as CarService
+import technology from "../technology/java2.technology" as java
+
+@technology(java)
+type CarService::CarService::car.Car {
+	aspects {
+		java::_aspects.Table("car");
+		java::_aspects.RepresentationModel;
+	}
+	
+	code {
+		aspects {
+			java::_aspects.Id;
+			java::_aspects.NotNull;
+		}
+	}
+	
+	manufacturer {
+		aspects {
+			java::_aspects.NotNull;
+			java::_aspects.ManyToOne;
+		}
+	}
+	
+	model {
+		aspects {
+			java::_aspects.NotNull;
+		}
+	}
+	
+	rentPerKilo {
+		aspects {
+			java::_aspects.NotNull;
+		}
+	}
+}
+
+@technology(java)
+type CarService::CarService::manufacturer.Manufacturer {
+	aspects {
+		java::_aspects.Table("manufacturer");
+		java::_aspects.RepresentationModel;
+	}
+	
+	name {
+		aspects {
+			java::_aspects.Id;
+			java::_aspects.NotNull;
+		}
+	}
+}
+
+@technology(java)
+type CarService::CarService::car.CarService {
+	op getCar {
+		aspects {
+			java::_aspects.Throws("EntityNotFoundException");
+		}
+	}
+}
+
+@technology(java)
+type CarService::CarService::manufacturer.ManufacturerService {
+	op getManufacturer {
+		aspects {
+			java::_aspects.Throws("EntityNotFoundException");
+		}
+	}
+}
+
+@technology(java)
+CarService::de.uniba.dsg.carrental.CarService {
+	aspects {
+		java::_aspects.ServerPort(8100);
+		java::_aspects.ApplicationName("car-service");
+		java::_aspects.Profile("dev, prod");
+		java::_aspects.SpringConfigImport("configserver:");
+		java::_aspects.SpringCloudConfigUri("http://localhost:8888");
+		java::_aspects.SpringSqlInitMode("always");
+		java::_aspects.SpringDocPath("/car-service/api-doc");
+		
+		java::_aspects.SpringJpa(
+			showSql = true,
+			hibernateDdlAuto = "none"
+		);
+		
+		java::_aspects.SpringDataSource(
+			url = "jdbc:postgresql://localhost:5432/car_db",
+			username = "admin",
+			password = "admin",
+			driverClassName = "org.postgresql.Driver"
+		);
+		
+		java::_aspects.EurekaClient(
+			fetchRegistry = true,
+			registerWithEureka = true,
+			serviceUrlDefaultZone = "http://localhost:8761/eureka"
+		);
+		
+		java::_aspects.CustomProperty(name="application.title", value="${spring.application.name}");
+		java::_aspects.CustomProperty(name="application.version", value="1.0.0");
+		java::_aspects.CustomProperty(name="application.description", value="Car Service of Car Rental Microservices Application");
+		java::_aspects.CustomProperty(name="application.unique-id", value="${application.title}_${application.version}");
+		java::_aspects.CustomProperty(name="application.domain", value="car-rental/car-service");
+		java::_aspects.CustomProperty(name="application.contact-person.name", value="Master Developer");
+		java::_aspects.CustomProperty(name="application.contact-person.email", value="master.developer@carrental.com");
+		java::_aspects.CustomProperty(name="application.technology-stack", value="Java Springboot0");
+		java::_aspects.CustomProperty(name="application.creation-date", value="01/01/20220");
+		
+		java::_aspects.CustomProperty(name="instance.port", value="${server_port}");
+		java::_aspects.CustomProperty(name="instance.base-path", value="http://localhost:${server_port}");
+		java::_aspects.CustomProperty(name="instance.host", value="docker-default");
+		java::_aspects.CustomProperty(name="instance.region", value="default");
+		java::_aspects.CustomProperty(name="instance.protocols[0]", value="http");
+		java::_aspects.CustomProperty(name="instance.technology", value="Springboot");
+		java::_aspects.CustomProperty(name="instance.request-log-endpoint", value="${logging.get-request-logs.path}");
+		java::_aspects.CustomProperty(name="instance.container-id", value="${spring.application.name}_${random.uuid}");
+		
+		java::_aspects.CustomProperty(name="logging.directory", value="${user.home}/architecture-extraction-logs/${instance.container-id}/logs");
+		java::_aspects.CustomProperty(name="logging.request.file-name", value="request.log");
+		java::_aspects.CustomProperty(name="logging.get-request-logs.path", value="/car-service/architecture-extraction/request-logs");
+		java::_aspects.CustomProperty(name="logging.ignore-paths", value="${springdoc.api-docs.path},${logging.get-request-logs.path}");
+		
+		java::_aspects.CustomProperty(name="architecture-extraction.create-instance-endpoint", value="http://localhost:9001/management-service/ServiceInstancess");
+	}
+	
+	interface CarsController {
+		endpoints {
+			java::_protocols.rest: "/car-service/api/v1/cars";
+		}
+	}
+	
+	interface ManufacturersController {
+		endpoints {
+			java::_protocols.rest: "/car-service/api/v1/manufacturers";
+		}
+	}
+	
+	operation CarsController.getCars {
+		aspects {
+			java::_aspects.GetMapping;
+		}
+		
+		parameters {
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_500;
+				}
+			}
+		}
+	}
+	
+	operation CarsController.getCar {
+		endpoints {
+			java::_protocols.rest: "/{code}";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+		}
+		
+		parameters {
+			primitive code {
+				aspects {
+					java::_aspects.PathVariable("code");
+				}
+			}
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_404;
+					java::_aspects.HttpCode_500;
+				}
+			}
+		}
+	}
+	
+	operation ManufacturersController.getManufacturers {
+		aspects {
+			java::_aspects.GetMapping;
+		}
+		
+		parameters {
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_500;
+				}
+			}
+		}
+	}
+	
+	operation ManufacturersController.getManufacturerCars {
+		endpoints {
+			java::_protocols.rest: "/{name}/cars";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+		}
+		
+		parameters {
+			primitive name {
+				aspects {
+					java::_aspects.PathVariable("name");
+				}
+			}
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_404;
+					java::_aspects.HttpCode_500;
+				}
+			}
+		}
+	}
+}

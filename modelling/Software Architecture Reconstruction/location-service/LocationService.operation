@@ -1,0 +1,71 @@
+import microservices from "LocationService.services" as LocationService
+import technology from "../technology/docker2.technology" as containerTechnology
+import technology from "../technology/java2.technology" as protocolTechnology
+
+@technology(containerTechnology)
+@technology(protocolTechnology)
+container LocationServiceContainer deployment technology containerTechnology::_deployment.Docker deploys LocationService::de.uniba.dsg.carrental.LocationService {
+	aspects {
+		containerTechnology::_aspects.Dockerfile(
+			'#FROM openjdk:16-slim
+			FROM maven:3.8.2-openjdk-16 AS build-env
+			
+			#making work directory
+			RUN mkdir -p /usr/src/app/services/location-service
+			
+			#defining work directory
+			WORKDIR /usr/src/app/services/location-service
+			
+			
+			#copy to the Project Directory
+			COPY  ./location-service /usr/src/app/services/location-service
+			
+			
+			#building app
+			RUN mvn clean package
+			
+			#assigning entry point
+			ENTRYPOINT ["java", "-jar", "/usr/src/app/services/location-service/target/location-service-0.0.1-SNAPSHOT.jar"]'
+		);
+
+		containerTechnology::_aspects.ComposePart(
+			'location:
+		        build:
+		            context: ./
+		            dockerfile: ./location-service/Dockerfile
+		        ports:
+		            - "8200:8200"
+		        environment:
+		            - server_port=8200
+		            - active_profiles=default
+		            - config_server=http://config:8888
+		            - eureka_default_zone=http://discovery:8761/eureka
+		
+		            - spring.datasource.url=jdbc:postgresql://location-db:5432/location_db
+		            - spring.datasource.username=admin
+		            - spring.datasource.password=admin
+		            - spring.datasource.driver-class-name=org.postgresql.Driver
+		
+		            - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
+		        depends_on:
+		            - config
+		            - location-db
+		            - discovery
+		        links:
+		            - config
+		            - location-db
+		            - discovery
+		        restart: on-failure
+		        networks:
+		            - car-rental
+		        volumes:
+		            - service_bkp_location:/var/lib/location-service'
+		);
+	}
+	
+	default values {
+		basic endpoints {
+			protocolTechnology::_protocols.rest: "http://localhost:8200";
+		}
+	}
+}

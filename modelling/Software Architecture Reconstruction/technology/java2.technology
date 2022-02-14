@@ -1,0 +1,218 @@
+technology java {
+	types {
+		primitive type Boolean based on boolean default;
+		primitive type Byte based on byte default;
+		primitive type Character based on char default;
+		primitive type Date based on date default;
+		primitive type Double based on double default;
+		primitive type Float based on float default;
+		primitive type Integer based on int default;
+		primitive type Long based on long default;
+		primitive type Object based on unspecified default;
+		primitive type Short based on short default;
+		primitive type String based on string default;
+		primitive type BigDecimal;
+		primitive type Currency;
+
+		compatibility matrix {
+			Float -> BigDecimal;
+			String -> Currency;
+		}
+	}
+
+	protocols {
+		sync rest data formats json default with format json;
+		sync httpProxy data formats json default with format json;
+	}
+
+	service aspects {
+		//aspect Map for types;
+		//aspect Embeddable for types;
+		//aspect ResourceSupport for types;
+		aspect Table for types {
+			string value <mandatory>;
+		}
+		
+		aspect JoinColumn for fields {
+			string value <mandatory>;
+		}
+		
+		aspect Id for fields;
+		
+		aspect NotNull for fields;
+		
+		aspect ManyToOne for fields;
+		
+		aspect RepresentationModel for types;
+		
+		aspect Throws for domainOperations, operations {
+			string value <mandatory>;
+		}
+		
+		aspect Optional for domainOperations;
+		
+		//aspect UserDetails for types, domainParameters;
+
+		//aspect Array for fields;
+		//aspect AttributeOverrideColumn for fields {
+		//	string name <mandatory>;
+		//	string column <mandatory>;
+		//}
+		//aspect Collection for fields;
+		//aspect Constant for fields;
+		//aspect DecimalMax for fields {
+		//	string value <mandatory>;
+		//	boolean inclusive = false;
+		//}
+		//aspect DecimalMin for fields {
+		//	string value <mandatory>;
+		//}
+		//aspect Embedded for fields;
+		//aspect EmbeddedId for fields;
+		//aspect Email for fields;
+		//aspect GeneratedValue for fields;
+		//aspect JsonFormat for fields {
+			//string pattern <mandatory>;
+		//}
+		//aspect JsonIgnore for fields;
+		//aspect JsonProperty for fields {
+		//	string name;
+		//}
+		//aspect JsonUnwrapped for fields;
+		//aspect OneToMany for fields {
+		//	string cascade = "ALL";
+		//	string fetch;
+		//}
+		//aspect Value for fields {
+		//	string value <mandatory>;
+		//}
+		//aspect Valid for fields;
+
+		//aspect Multimap for domainOperations;
+		
+		//aspect static for domainOperations;
+		aspect ResponseEntity for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_200 for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_400 for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_404 for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect HttpCode_500 for parameters {
+			selector(exchange_pattern = out);
+		}
+		
+		aspect ServerPort for microservices {
+			int value <mandatory>;
+		}
+
+		aspect ApplicationName for microservices {
+			string value <mandatory>;
+		}
+		
+		aspect Profile for microservices {
+			string value <mandatory>;
+		}
+		
+		aspect EurekaClient for microservices {
+			boolean fetchRegistry <mandatory>;
+			boolean registerWithEureka <mandatory>;
+			string serviceUrlDefaultZone;
+		}
+		
+		aspect FeignClientConfigDefault for microservices {
+			int readTimeout <mandatory>;
+			int connectTimeout <mandatory>;
+		}
+		
+		aspect SpringCloudGatewayHttpClient for microservices {
+			int responseTimeout <mandatory>;
+			int connectTimeout <mandatory>;
+		}
+		
+		aspect SpringCloudConfigServer for microservices {
+			string gitUri <mandatory>;
+			string defaultLabel <mandatory>;
+		}
+		
+		aspect SpringConfigImport for microservices {
+			string value <mandatory>;
+		}
+		
+		aspect SpringCloudConfigUri for microservices {
+			string value <mandatory>;
+		}
+		
+		aspect SpringSqlInitMode for microservices {
+			string value <mandatory>;
+		}
+		
+		aspect SpringJpa for microservices {
+			boolean showSql <mandatory>;
+			string hibernateDdlAuto <mandatory>;
+		}
+		
+		aspect SpringDocPath for microservices {
+			string value <mandatory>;
+		}
+		
+		aspect CustomProperty for microservices {
+			string name <mandatory>;
+			string value <mandatory>;
+		}
+
+		aspect SpringDataSource for microservices {
+			string url;
+			string username;
+			string password;
+			string driverClassName;
+		}
+
+		aspect GetMapping for operations;
+
+		aspect PathVariable for parameters {			
+			selector(exchange_pattern = in);
+			
+			string value <mandatory>;
+		}
+		
+		aspect RequestParam for parameters {
+			selector(exchange_pattern = in);
+		
+			string value <mandatory>;
+			string defaultValue = "";
+		}
+		
+		aspect Header for parameters {
+			selector(exchange_pattern = in);
+			
+			string value <mandatory>;
+		}
+		
+		//aspect ResponseStatus for parameters {
+		//	selector(exchange_pattern = out);
+
+		//	string status <mandatory>;
+		//}
+		//aspect RequestBody for parameters {
+		//	selector(exchange_pattern = in);
+		//}
+		//aspect RequestParam for parameters {
+		//	selector(exchange_pattern = in);
+		//
+		//	string value;
+		//	string defaultValue = "";
+		//}
+		//aspect Set for parameters;
+		//aspect Valid for parameters;
+	}
+}

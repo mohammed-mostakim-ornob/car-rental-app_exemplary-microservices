@@ -1,0 +1,66 @@
+import microservices from "ApiGateway.services" as ApiGateway
+import technology from "../technology/docker2.technology" as containerTechnology
+import technology from "../technology/java2.technology" as protocolTechnology
+
+@technology(containerTechnology)
+@technology(protocolTechnology)
+container ApiGatewayContainer deployment technology containerTechnology::_deployment.Docker deploys ApiGateway::de.uniba.dsg.carrental.ApiGateway {
+	aspects {
+		containerTechnology::_aspects.Dockerfile(
+			'#FROM openjdk:16-slim
+			FROM maven:3.8.2-openjdk-16 AS build-env
+			
+			#making work directory
+			RUN mkdir -p /usr/src/app/services/api-gateway
+			
+			#defining work directory
+			WORKDIR /usr/src/app/services/api-gateway
+			
+			
+			#copy to the Project Directory
+			COPY  ./api-gateway /usr/src/app/services/api-gateway
+			
+			
+			#building app
+			RUN mvn clean package
+			
+			#assigning entry point
+			ENTRYPOINT ["java", "-jar", "/usr/src/app/services/api-gateway/target/api-gateway-0.0.1-SNAPSHOT.jar"]'
+		);
+
+		containerTechnology::_aspects.ComposePart(
+			'api-gateway:
+		        build:
+		            context: ./
+		            dockerfile: ./api-gateway/Dockerfile
+		        ports:
+		            - "8000:8000"
+		        environment:
+		            - server_port=8000
+		            - active_profiles=default
+		            - config_server=http://config:8888
+		            - eureka_default_zone=http://discovery:8761/eureka
+		        depends_on:
+		            - discovery
+		            - config
+		            - car
+		            - location
+		            - rent
+		        links:
+		            - discovery
+		            - config
+		            - car
+		            - location
+		            - rent
+		        restart: on-failure
+		        networks:
+		            - car-rental'
+		);
+	}
+	
+	default values {
+		basic endpoints {
+			protocolTechnology::_protocols.rest: "http://localhost:8000";
+		}
+	}
+}

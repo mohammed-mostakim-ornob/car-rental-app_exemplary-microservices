@@ -1,0 +1,21 @@
+technology docker {
+	deployment technologies {
+		Docker {
+			operation environments = "maven:3.8.2-openjdk-16" default;
+		}
+	}
+
+	operation aspects {
+		aspect Dockerfile<singleval> for containers {
+			selector(technology = Docker);
+
+			string contents <mandatory>;
+		}
+
+		aspect ComposePart<singleval> for containers {
+			selector(technology = Docker);
+
+			string contents <mandatory>;
+		}
+	}
+}

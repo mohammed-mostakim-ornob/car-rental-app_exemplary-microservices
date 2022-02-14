@@ -1,0 +1,28 @@
+import datatypes from "CarService.data" as CarService
+import microservices from "../discovery-service/DiscoveryService.services" as DiscoveryService
+import microservices from "../config-service/ConfigService.services" as ConfigService
+
+functional microservice de.uniba.dsg.carrental.CarService {
+	required microservices {
+		DiscoveryService::de.uniba.dsg.carrental.DiscoveryService,
+		ConfigService::de.uniba.dsg.carrental.ConfigService
+	}
+	
+	interface CarsController {
+		getCars(sync out response: CarService::car.CarCollectionModel);
+		
+		getCar(
+			sync code: string,
+			sync out response: CarService::car.Car
+		);
+	}
+	
+	interface ManufacturersController {
+		getManufacturers(sync  out response: CarService::manufacturer.ManufacturerCollectionModel);
+		
+		getManufacturerCars(
+			sync name: string,
+			sync out response: CarService::car.CarCollectionModel
+		);
+	}
+}

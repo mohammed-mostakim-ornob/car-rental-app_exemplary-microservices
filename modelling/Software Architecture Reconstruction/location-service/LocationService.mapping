@@ -1,0 +1,218 @@
+import microservices from "LocationService.services" as LocationService
+import technology from "../technology/java2.technology" as java
+
+@technology(java)
+type LocationService::LocationService::location.Location {
+	aspects {
+		java::_aspects.Table("location");
+		java::_aspects.RepresentationModel;
+	}
+	
+	code {
+		aspects {
+			java::_aspects.Id;
+			java::_aspects.NotNull;
+		}
+	}
+	
+	name {
+		aspects {
+			java::_aspects.NotNull;
+		}
+	}
+}
+
+@technology(java)
+type LocationService::LocationService::distance.Distance {
+	aspects {
+		java::_aspects.Table("distance");
+		java::_aspects.RepresentationModel;
+	}
+	
+	id {
+		aspects {
+			java::_aspects.Id;
+			java::_aspects.NotNull;
+		}
+	}
+	
+	fromLocation {
+		aspects {
+			java::_aspects.NotNull;
+			java::_aspects.ManyToOne;
+			java::_aspects.JoinColumn("from_location");
+		}
+	}
+	
+	toLocation {
+		aspects {
+			java::_aspects.NotNull;
+			java::_aspects.ManyToOne;
+			java::_aspects.JoinColumn("to_location");
+		}
+	}
+	
+	distance {
+		aspects {
+			java::_aspects.NotNull;
+		}
+	}
+}
+
+@technology(java)
+type LocationService::LocationService::distance.DistanceRepository {
+	op findByFromCodeAndToCode {
+		aspects {
+			java::_aspects.Optional;
+		}
+	}
+}
+
+@technology(java)
+type LocationService::LocationService::location.LocationService {
+	op getLocationByCode {
+		aspects {
+			java::_aspects.Throws("EntityNotFoundException");
+		}
+	}
+}
+
+@technology(java)
+type LocationService::LocationService::distance.DistanceService {
+	op getDistanceByFromAndToCode {
+		aspects {
+			java::_aspects.Throws("EntityNotFoundException");
+		}
+	}
+}
+
+@technology(java)
+LocationService::de.uniba.dsg.carrental.LocationService {
+	aspects {
+		java::_aspects.ServerPort(8200);
+		java::_aspects.ApplicationName("location-service");
+		java::_aspects.Profile("dev, prod");
+		java::_aspects.SpringConfigImport("configserver:");
+		java::_aspects.SpringCloudConfigUri("http://localhost:8888");
+		java::_aspects.SpringSqlInitMode("always");
+		java::_aspects.SpringDocPath("/location-service/api-doc");
+		
+		java::_aspects.SpringJpa(
+			showSql = true,
+			hibernateDdlAuto = "none"
+		);
+		
+		java::_aspects.SpringDataSource(
+			url = "jdbc:postgresql://localhost:5433/location_db",
+			username = "admin",
+			password = "admin",
+			driverClassName = "org.postgresql.Driver"
+		);
+		
+		java::_aspects.EurekaClient(
+			fetchRegistry = true,
+			registerWithEureka = true,
+			serviceUrlDefaultZone = "http://localhost:8761/eureka"
+		);
+		
+		java::_aspects.CustomProperty(name="application.title", value="${spring.application.name}");
+		java::_aspects.CustomProperty(name="application.version", value="1.0.0");
+		java::_aspects.CustomProperty(name="application.description", value="Location Service of Car Rental Microservices Application");
+		java::_aspects.CustomProperty(name="application.unique-id", value="${application.title}_${application.version}");
+		java::_aspects.CustomProperty(name="application.domain", value="car-rental/location-service");
+		java::_aspects.CustomProperty(name="application.contact-person.name", value="Master Developer");
+		java::_aspects.CustomProperty(name="application.contact-person.email", value="master.developer@carrental.com");
+		java::_aspects.CustomProperty(name="application.technology-stack", value="Java Springboot0");
+		java::_aspects.CustomProperty(name="application.creation-date", value="01/01/20220");
+		
+		java::_aspects.CustomProperty(name="instance.port", value="${server_port}");
+		java::_aspects.CustomProperty(name="instance.base-path", value="http://localhost:${server_port}");
+		java::_aspects.CustomProperty(name="instance.host", value="docker-default");
+		java::_aspects.CustomProperty(name="instance.region", value="default");
+		java::_aspects.CustomProperty(name="instance.protocols[0]", value="http");
+		java::_aspects.CustomProperty(name="instance.technology", value="Springboot");
+		java::_aspects.CustomProperty(name="instance.request-log-endpoint", value="${logging.get-request-logs.path}");
+		java::_aspects.CustomProperty(name="instance.container-id", value="${spring.application.name}_${random.uuid}");
+		
+		java::_aspects.CustomProperty(name="logging.directory", value="${user.home}/architecture-extraction-logs/${instance.container-id}/logs");
+		java::_aspects.CustomProperty(name="logging.request.file-name", value="request.log");
+		java::_aspects.CustomProperty(name="logging.get-request-logs.path", value="/location-service/architecture-extraction/request-logs");
+		java::_aspects.CustomProperty(name="logging.ignore-paths", value="${springdoc.api-docs.path},${logging.get-request-logs.path}");
+		
+		java::_aspects.CustomProperty(name="architecture-extraction.create-instance-endpoint", value="http://localhost:9001/management-service/ServiceInstancess");
+	}
+	
+	interface LocationsController {
+		endpoints {
+			java::_protocols.rest: "/location-service/api/v1/locations";
+		}
+	}
+	
+	interface DistanceController {
+		endpoints {
+			java::_protocols.rest: "/location-service/api/v1/distance";
+		}
+	}
+	
+	operation LocationsController.getLocations {
+		aspects {
+			java::_aspects.GetMapping;
+		}
+		
+		parameters {
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_500;
+				}
+			}
+		}
+	}
+	
+	operation LocationsController.getLocation {
+		endpoints {
+			java::_protocols.rest: "/{code}";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+		}
+		
+		parameters {
+			primitive code {
+				aspects {
+					java::_aspects.PathVariable("code");
+				}
+			}
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_404;
+					java::_aspects.HttpCode_500;
+				}
+			}
+		}
+	}
+	
+	operation DistanceController.getDistance {
+		aspects {
+			java::_aspects.GetMapping;
+		}
+		
+		parameters {
+			complex response {
+				aspects {
+					java::_aspects.ResponseEntity;
+					
+					java::_aspects.HttpCode_200;
+					java::_aspects.HttpCode_404;
+					java::_aspects.HttpCode_500;
+				}
+			}
+		}
+	}
+}

@@ -1,0 +1,52 @@
+import microservices from "ConfigService.services" as ConfigService
+import technology from "../technology/docker2.technology" as containerTechnology
+import technology from "../technology/java2.technology" as protocolTechnology
+
+@technology(containerTechnology)
+@technology(protocolTechnology)
+container ConfigServiceContainer deployment technology containerTechnology::_deployment.Docker deploys ConfigService::de.uniba.dsg.carrental.ConfigService {
+	aspects {
+		containerTechnology::_aspects.Dockerfile(
+			'FROM openjdk:16-slim
+			FROM maven:3.8.2-openjdk-16 AS build-env
+			
+			#making work directory
+			RUN mkdir -p /usr/src/app/services/config-service
+			
+			#defining work directory
+			WORKDIR /usr/src/app/services/config-service
+			
+			
+			#copy to the Project Directory
+			COPY  ./config-service /usr/src/app/services/config-service
+			
+			
+			#building app
+			RUN mvn clean package
+			
+			#assigning entry point
+			ENTRYPOINT ["java", "-jar", "/usr/src/app/services/config-service/target/config-service-0.0.1-SNAPSHOT.jar"]'
+		);
+
+		containerTechnology::_aspects.ComposePart(
+			'config:
+		        build:
+		            context: ./
+		            dockerfile: ./config-service/Dockerfile
+		        ports:
+		            - "8888:8888"
+		        environment:
+		            - server_port=8888
+		            - config_server_default_branch=main
+		            - config_server_git_uri=https://github.com/mohammed-mostakim-ornob/car-rental-config
+		        networks:
+		            - car-rental'
+		);
+	}
+	
+	default values {
+		basic endpoints {
+			protocolTechnology::_protocols.rest: "http://localhost:8888";
+		}
+	}
+}

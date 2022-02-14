@@ -1,0 +1,14 @@
+import microservices from "DiscoveryService.services" as DiscoveryService
+import technology from "../technology/java2.technology" as java
+
+@technology(java)
+DiscoveryService::de.uniba.dsg.carrental.DiscoveryService {
+	aspects {
+		java::_aspects.ServerPort(8761);
+		
+		java::_aspects.EurekaClient(
+			fetchRegistry = false,
+			registerWithEureka = false
+		);
+	}
+}
