@@ -239,7 +239,7 @@ DistanceService
 --
 - distanceRepository: DistanceRepository
 --
-+ getLocationByFromAndToCode(from: String, to: String): Distance</panel_attributes>
++ getDistanceByFromAndToCode(from: String, to: String): Distance</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
