@@ -8,6 +8,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -16,7 +17,9 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper = true)
 public class Location extends RepresentationModel<Location> {
     @Id
+    @NotNull
     private String code;
 
+    @NotNull
     private String name;
 }

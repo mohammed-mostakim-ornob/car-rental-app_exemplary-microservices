@@ -1,178 +1,182 @@
 version: '3.8'
 
 services:
-  car-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: car_db
-    ports:
-      - '5432:5432'
-    networks:
-      - car-rental
-    volumes:
-      - postgres_bkp_car:/var/lib/postgres
+    car-db:
+        image: postgres:latest
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: car_db
+        ports:
+            - '5432:5432'
+        networks:
+            - car-rental
+        volumes:
+            - postgres_bkp_car:/var/lib/postgres
 
-  location-db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: admin
-      POSTGRES_PASSWORD: admin
-      POSTGRES_DB: location_db
-    ports:
-      - '5433:5432'
-    networks:
-      - car-rental
-    volumes:
-      - postgres_bkp_location:/var/lib/postgres
+    location-db:
+        image: postgres:latest
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: location_db
+        ports:
+            - '5433:5432'
+        networks:
+            - car-rental
+        volumes:
+            - postgres_bkp_location:/var/lib/postgres
 
-  discovery:
-    build:
-      context: ./
-      dockerfile: ./discovery-service/Dockerfile
-    ports:
-      - '8761:8761'
-    environment:
-      - server_port=8761
-    networks:
-      - car-rental
+    discovery:
+        build:
+            context: ./
+            dockerfile: ./discovery-service/Dockerfile
+        ports:
+            - '8761:8761'
+        environment:
+            - server_port=8761
+        networks:
+            - car-rental
 
-  config:
-    build:
-      context: ./
-      dockerfile: ./config-service/Dockerfile
-    ports:
-      - '8888:8888'
-    environment:
-      - server_port=8888
-      - config_server_default_branch=main
-      - config_server_git_uri=https://github.com/mohammed-mostakim-ornob/car-rental-config
-    networks:
-      - car-rental
+    config:
+        build:
+            context: ./
+            dockerfile: ./config-service/Dockerfile
+        ports:
+            - '8888:8888'
+        environment:
+            - server_port=8888
+            - config_server_default_branch=main
+            - config_server_git_uri=https://github.com/mohammed-mostakim-ornob/car-rental-config
+        networks:
+            - car-rental
 
-  car:
-    build:
-      context: ./
-      dockerfile: ./car-service/Dockerfile
-    ports:
-      - '8100:8100'
-    environment:
-      - server_port=8100
-      - active_profiles=default
-      - config_server=http://config:8888
-      - eureka_default_zone=http://discovery:8761/eureka
+    car:
+        build:
+            context: ./
+            dockerfile: ./car-service/Dockerfile
+        ports:
+            - '8100:8100'
+        environment:
+            - server_port=8100
+            - active_profiles=default
+            - config_server=http://config:8888
+            - eureka_default_zone=http://discovery:8761/eureka
 
-      - spring.datasource.url=jdbc:postgresql://car-db:5432/car_db
-      - spring.datasource.username=admin
-      - spring.datasource.password=admin
-      - spring.datasource.driver-class-name=org.postgresql.Driver
+            - spring.datasource.url=jdbc:postgresql://car-db:5432/car_db
+            - spring.datasource.username=admin
+            - spring.datasource.password=admin
+            - spring.datasource.driver-class-name=org.postgresql.Driver
 
-      - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
-    depends_on:
-      - config
-      - car-db
-      - discovery
-    links:
-      - config
-      - car-db
-      - discovery
-    restart: on-failure
-    networks:
-      - car-rental
-    volumes:
-      - service_bkp_car:/var/lib/car-service
+            - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
+        depends_on:
+            - config
+            - car-db
+            - discovery
+        links:
+            - config
+            - car-db
+            - discovery
+        restart: on-failure
+        networks:
+            - car-rental
+        volumes:
+            - service_bkp_car:/var/lib/car-service
 
-  location:
-    build:
-      context: ./
-      dockerfile: ./location-service/Dockerfile
-    ports:
-      - '8200:8200'
-    environment:
-      - server_port=8200
-      - active_profiles=default
-      - config_server=http://config:8888
-      - eureka_default_zone=http://discovery:8761/eureka
+    location:
+        build:
+            context: ./
+            dockerfile: ./location-service/Dockerfile
+        ports:
+            - '8200:8200'
+        environment:
+            - server_port=8200
+            - active_profiles=default
+            - config_server=http://config:8888
+            - eureka_default_zone=http://discovery:8761/eureka
 
-      - spring.datasource.url=jdbc:postgresql://location-db:5432/location_db
-      - spring.datasource.username=admin
-      - spring.datasource.password=admin
-      - spring.datasource.driver-class-name=org.postgresql.Driver
+            - spring.datasource.url=jdbc:postgresql://location-db:5432/location_db
+            - spring.datasource.username=admin
+            - spring.datasource.password=admin
+            - spring.datasource.driver-class-name=org.postgresql.Driver
 
-      - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
-    depends_on:
-      - config
-      - location-db
-      - discovery
-    links:
-      - config
-      - location-db
-      - discovery
-    restart: on-failure
-    networks:
-      - car-rental
-    volumes:
-      - service_bkp_location:/var/lib/location-service
+            - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
+        depends_on:
+            - config
+            - location-db
+            - discovery
+        links:
+            - config
+            - location-db
+            - discovery
+        restart: on-failure
+        networks:
+            - car-rental
+        volumes:
+            - service_bkp_location:/var/lib/location-service
 
-  rent:
-    build:
-      context: ./
-      dockerfile: ./rent-service/Dockerfile
-    ports:
-      - '8300:8300'
-    environment:
-      - server_port=8300
-      - active_profiles=default
-      - config_server=http://config:8888
-      - eureka_default_zone=http://discovery:8761/eureka
+    rent:
+        build:
+            context: ./
+            dockerfile: ./rent-service/Dockerfile
+        ports:
+            - '8300:8300'
+        environment:
+            - server_port=8300
+            - active_profiles=default
+            - config_server=http://config:8888
+            - eureka_default_zone=http://discovery:8761/eureka
 
-      - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
-    depends_on:
-      - discovery
-      - config
-      - car
-      - location
-    links:
-      - discovery
-      - config
-      - car
-      - location
-    restart: on-failure
-    networks:
-      - car-rental
-    volumes:
-      - service_bkp_rent:/var/lib/rent-service
+            - architecture_extraction_create_instance_endpoint=http://host.docker.internal:9001/management-service/ServiceInstances
+        depends_on:
+            - discovery
+            - config
+            - car
+            - location
+        links:
+            - discovery
+            - config
+            - car
+            - location
+        restart: on-failure
+        networks:
+            - car-rental
+        volumes:
+            - service_bkp_rent:/var/lib/rent-service
 
-  api-gateway:
-    build:
-      context: ./
-      dockerfile: ./api-gateway/Dockerfile
-    ports:
-      - '8000:8000'
-    environment:
-      - server_port=8000
-      - active_profiles=default
-      - config_server=http://config:8888
-      - eureka_default_zone=http://discovery:8761/eureka
-    depends_on:
-      - car
-      - location
-      - rent
-    links:
-      - car
-      - location
-      - rent
-    restart: on-failure
-    networks:
-      - car-rental
+    api-gateway:
+        build:
+            context: ./
+            dockerfile: ./api-gateway/Dockerfile
+        ports:
+            - '8000:8000'
+        environment:
+            - server_port=8000
+            - active_profiles=default
+            - config_server=http://config:8888
+            - eureka_default_zone=http://discovery:8761/eureka
+        depends_on:
+            - discovery
+            - config
+            - car
+            - location
+            - rent
+        links:
+            - discovery
+            - config
+            - car
+            - location
+            - rent
+        restart: on-failure
+        networks:
+            - car-rental
 
 networks:
-  car-rental:
+    car-rental:
 
 volumes:
-  postgres_bkp_car:
-  postgres_bkp_location:
-  service_bkp_car:
-  service_bkp_location:
-  service_bkp_rent:
+    postgres_bkp_car:
+    postgres_bkp_location:
+    service_bkp_car:
+    service_bkp_location:
+    service_bkp_rent:

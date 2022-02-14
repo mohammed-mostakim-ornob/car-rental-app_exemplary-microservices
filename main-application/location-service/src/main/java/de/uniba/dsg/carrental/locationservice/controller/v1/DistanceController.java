@@ -48,7 +48,7 @@ public class DistanceController {
         try {
             validateDistanceRequestParam(from, to);
 
-            Distance distance = distanceService.getLocationByFromAndToCode(from, to);
+            Distance distance = distanceService.getDistanceByFromAndToCode(from, to);
 
             distance.add(linkTo(
                 methodOn(DistanceController.class).getDistance(distance.getFrom().getCode(), distance.getTo().getCode())

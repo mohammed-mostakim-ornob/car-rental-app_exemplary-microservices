@@ -8,6 +8,7 @@ import org.springframework.hateoas.RepresentationModel;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.validation.constraints.NotNull;
 
 @Data
 @Entity
@@ -16,5 +17,6 @@ import javax.persistence.Id;
 @EqualsAndHashCode(callSuper = true)
 public class Manufacturer extends RepresentationModel<Manufacturer> {
     @Id
+    @NotNull
     private String name;
 }

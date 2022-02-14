@@ -17,7 +17,7 @@ public class DistanceService {
         this.distanceRepository = distanceRepository;
     }
 
-    public Distance getLocationByFromAndToCode(String from, String to) throws EntityNotFoundException {
+    public Distance getDistanceByFromAndToCode(String from, String to) throws EntityNotFoundException {
         Optional<Distance> optionalDistance = distanceRepository.findByFromCodeAndToCode(from, to);
 
         if (optionalDistance.isEmpty())
