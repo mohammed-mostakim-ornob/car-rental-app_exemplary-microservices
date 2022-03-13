@@ -25,4 +25,12 @@ context rent {
 	structure RentService <domainService> {
 		function Rent calculateRent(string carCode, string fromLocationCode, string toLocationCode)
 	}
+	
+	structure CarServiceProxy <infrastructureService> {
+		function Car fetchCar(string code, string instanceId)
+	}
+	
+	structure LocationServiceProxy <infrastructureService> {
+		function Distance getDistance(string fromLocationCode, string toLocationCode, string instanceId)
+	}
 }

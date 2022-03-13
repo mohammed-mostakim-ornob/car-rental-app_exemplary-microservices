@@ -1,0 +1,5 @@
+context config {
+	structure ServletWebRequest <factory> { }
+	
+	list ByteArray {byte b}
+}

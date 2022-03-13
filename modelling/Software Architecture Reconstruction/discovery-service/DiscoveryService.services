@@ -1,5 +1,23 @@
+import datatypes from "DiscoveryService.data" as DiscoveryService
+
 infrastructure microservice de.uniba.dsg.carrental.DiscoveryService {
-	interface DefaultInterface {
-		DefaultOperation();
+	interface AppsController {
+		registerNewApplication(
+			sync in appID: string
+		);
+		
+		deRegisterApplicationInstance(
+			sync in appID: string,
+			sync in instanceID: string
+		);
+		
+		queryForAllInstances(
+			sync out response: DiscoveryService::discovery.ApplicationInstanceList
+		);
+		
+		queryForAllAppInstances(
+			sync in appID: string,
+			sync out response: DiscoveryService::discovery.ApplicationInstanceList
+		);
 	}
 }

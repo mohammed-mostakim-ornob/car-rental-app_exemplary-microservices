@@ -139,15 +139,15 @@ CarService::de.uniba.dsg.carrental.CarService {
 	operation CarsController.getCars {
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
 			complex response {
 				aspects {
 					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_500;
 				}
 			}
 		}
@@ -160,6 +160,10 @@ CarService::de.uniba.dsg.carrental.CarService {
 		
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_404;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
@@ -171,10 +175,6 @@ CarService::de.uniba.dsg.carrental.CarService {
 			complex response {
 				aspects {
 					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_404;
-					java::_aspects.HttpCode_500;
 				}
 			}
 		}
@@ -183,15 +183,15 @@ CarService::de.uniba.dsg.carrental.CarService {
 	operation ManufacturersController.getManufacturers {
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
 			complex response {
 				aspects {
 					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_500;
 				}
 			}
 		}
@@ -204,6 +204,10 @@ CarService::de.uniba.dsg.carrental.CarService {
 		
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_404;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
@@ -215,10 +219,6 @@ CarService::de.uniba.dsg.carrental.CarService {
 			complex response {
 				aspects {
 					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_404;
-					java::_aspects.HttpCode_500;
 				}
 			}
 		}

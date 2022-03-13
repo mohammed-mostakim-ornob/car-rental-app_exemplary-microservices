@@ -12,7 +12,7 @@ functional microservice de.uniba.dsg.carrental.CarService {
 		getCars(sync out response: CarService::car.CarCollectionModel);
 		
 		getCar(
-			sync code: string,
+			sync in code: string,
 			sync out response: CarService::car.Car
 		);
 	}
@@ -21,7 +21,7 @@ functional microservice de.uniba.dsg.carrental.CarService {
 		getManufacturers(sync  out response: CarService::manufacturer.ManufacturerCollectionModel);
 		
 		getManufacturerCars(
-			sync name: string,
+			sync in name: string,
 			sync out response: CarService::car.CarCollectionModel
 		);
 	}

@@ -1,0 +1,9 @@
+context discovery {
+	structure ApplicationInstance <valueObject> {
+		string appId,
+		string instanceId,
+		string url
+	}
+	
+	list ApplicationInstanceList {ApplicationInstance b}
+}

@@ -12,16 +12,16 @@ functional microservice de.uniba.dsg.carrental.LocationService {
 		getLocations(sync out response: LocationService::location.LocationCollectionModel);
 		
 		getLocation(
-			sync code: string,
+			sync in code: string,
 			sync out response: LocationService::location.Location
 		);
 	}
 	
 	interface DistanceController {
 		getDistance(
-			sync fromLocationCode: string,
-			sync toLocationCode: string,
-			sync  out response: LocationService::distance.Distance
+			sync in fromLocationCode: string,
+			sync in toLocationCode: string,
+			sync out response: LocationService::distance.Distance
 		);
 	}
 }

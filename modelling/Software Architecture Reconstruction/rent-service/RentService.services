@@ -14,27 +14,10 @@ functional microservice de.uniba.dsg.carrental.RentService {
 	
 	interface RentController {
 		getRent(
-			sync carCode: string,
-			sync fromLocationCode: string,
-			sync toLocationCode: string,
+			sync in carCode: string,
+			sync in fromLocationCode: string,
+			sync in toLocationCode: string,
 			sync out response: RentService::rent.Rent
-		);
-	}
-	
-	interface CarServiceProxy {
-		fetchCar(
-			sync code: string,
-			sync instanceId: string,
-			sync out response: RentService::rent.Car
-		);
-	}
-	
-	interface LocationServiceProxy {
-		getDistance(
-			sync fromLocationCode: string,
-			sync toLocationCode: string,
-			sync instanceId: string,
-			sync out response: RentService::rent.Distance
 		);
 	}
 }

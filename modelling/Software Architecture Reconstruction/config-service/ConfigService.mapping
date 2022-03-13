@@ -11,4 +11,162 @@ ConfigService::de.uniba.dsg.carrental.ConfigService {
 			defaultLabel = "main"
 		);
 	}
+	
+	interface ResourceController {
+		endpoints {
+			java::_protocols.rest: "";
+		}
+	}
+	
+	operation ResourceController.retrieve {
+		endpoints {
+			java::_protocols.rest: "/{name}/{profile}/{label}/**";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+			
+			java::_aspects.HttpCode_200;
+		}
+		
+		parameters {
+			primitive name {
+				aspects {
+					java::_aspects.PathVariable("name");
+				}
+			}
+			primitive profile {
+				aspects {
+					java::_aspects.PathVariable("profile");
+				}
+			}
+			primitive label {
+				aspects {
+					java::_aspects.PathVariable("label");
+				}
+			}
+			primitive resolvePlaceholders {
+				aspects {
+					java::_aspects.RequestParam(value = "resolvePlaceholders", defaultValue = "true");
+				}
+			}
+			complex request {
+				aspects {
+					java::_aspects.HttpRequestAttribute;
+				}
+			}
+		}
+	}
+	
+	operation ResourceController.retrieveDefault {
+		endpoints {
+			java::_protocols.rest: "/{name}/{profile}/{path:.*}";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+			
+			java::_aspects.HttpCode_200;
+		}
+		
+		parameters {
+			primitive name {
+				aspects {
+					java::_aspects.PathVariable("name");
+				}
+			}
+			primitive profile {
+				aspects {
+					java::_aspects.PathVariable("profile");
+				}
+			}
+			primitive path {
+				aspects {
+					java::_aspects.PathVariable("path");
+				}
+			}
+			primitive resolvePlaceholders {
+				aspects {
+					java::_aspects.RequestParam(value = "resolvePlaceholders", defaultValue = "true");
+				}
+			}
+			complex request {
+				aspects {
+					java::_aspects.HttpRequestAttribute;
+				}
+			}
+		}
+	}
+	
+	operation ResourceController.binary {
+		endpoints {
+			java::_protocols.rest: "/{name}/{profile}/{label}/**";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+			java::_aspects.Produces("MediaType.APPLICATION_OCTET_STREAM_VALUE");
+			
+			java::_aspects.HttpCode_200;
+		}
+		
+		parameters {
+			primitive name {
+				aspects {
+					java::_aspects.PathVariable("name");
+				}
+			}
+			primitive profile {
+				aspects {
+					java::_aspects.PathVariable("profile");
+				}
+			}
+			primitive label {
+				aspects {
+					java::_aspects.PathVariable("label");
+				}
+			}
+			complex request {
+				aspects {
+					java::_aspects.HttpRequestAttribute;
+				}
+			}
+		}
+	}
+	
+	operation ResourceController.binaryDefault {
+		endpoints {
+			java::_protocols.rest: "/{name}/{profile}/{path:.*}";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+			java::_aspects.Produces("MediaType.APPLICATION_OCTET_STREAM_VALUE");
+			
+			java::_aspects.HttpCode_200;
+		}
+		
+		parameters {
+			primitive name {
+				aspects {
+					java::_aspects.PathVariable("name");
+				}
+			}
+			primitive profile {
+				aspects {
+					java::_aspects.PathVariable("profile");
+				}
+			}
+			primitive path {
+				aspects {
+					java::_aspects.PathVariable("path");
+				}
+			}
+			complex request {
+				aspects {
+					java::_aspects.HttpRequestAttribute;
+				}
+			}
+		}
+	}
 }

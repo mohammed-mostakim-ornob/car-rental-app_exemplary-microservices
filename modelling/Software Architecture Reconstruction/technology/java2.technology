@@ -26,9 +26,6 @@ technology java {
 	}
 
 	service aspects {
-		//aspect Map for types;
-		//aspect Embeddable for types;
-		//aspect ResourceSupport for types;
 		aspect Table for types {
 			string value <mandatory>;
 		}
@@ -50,66 +47,22 @@ technology java {
 		}
 		
 		aspect Optional for domainOperations;
-		
-		//aspect UserDetails for types, domainParameters;
 
-		//aspect Array for fields;
-		//aspect AttributeOverrideColumn for fields {
-		//	string name <mandatory>;
-		//	string column <mandatory>;
-		//}
-		//aspect Collection for fields;
-		//aspect Constant for fields;
-		//aspect DecimalMax for fields {
-		//	string value <mandatory>;
-		//	boolean inclusive = false;
-		//}
-		//aspect DecimalMin for fields {
-		//	string value <mandatory>;
-		//}
-		//aspect Embedded for fields;
-		//aspect EmbeddedId for fields;
-		//aspect Email for fields;
-		//aspect GeneratedValue for fields;
-		//aspect JsonFormat for fields {
-			//string pattern <mandatory>;
-		//}
-		//aspect JsonIgnore for fields;
-		//aspect JsonProperty for fields {
-		//	string name;
-		//}
-		//aspect JsonUnwrapped for fields;
-		//aspect OneToMany for fields {
-		//	string cascade = "ALL";
-		//	string fetch;
-		//}
-		//aspect Value for fields {
-		//	string value <mandatory>;
-		//}
-		//aspect Valid for fields;
-
-		//aspect Multimap for domainOperations;
-		
-		//aspect static for domainOperations;
 		aspect ResponseEntity for parameters {
 			selector(exchange_pattern = out);
 		}
 		
-		aspect HttpCode_200 for parameters {
-			selector(exchange_pattern = out);
-		}
+		aspect HttpRequestAttribute for parameters;
 		
-		aspect HttpCode_400 for parameters {
-			selector(exchange_pattern = out);
-		}
+		aspect HttpCode_200 for operations;
 		
-		aspect HttpCode_404 for parameters {
-			selector(exchange_pattern = out);
-		}
+		aspect HttpCode_204 for operations;
 		
-		aspect HttpCode_500 for parameters {
-			selector(exchange_pattern = out);
-		}
+		aspect HttpCode_400 for operations;
+		
+		aspect HttpCode_404 for operations;
+		
+		aspect HttpCode_500 for operations;
 		
 		aspect ServerPort for microservices {
 			int value <mandatory>;
@@ -178,6 +131,14 @@ technology java {
 		}
 
 		aspect GetMapping for operations;
+		
+		aspect PostMapping for operations;
+		
+		aspect DeleteMapping for operations;
+		
+		aspect Produces for operations {
+			string name <mandatory>;
+		}
 
 		aspect PathVariable for parameters {			
 			selector(exchange_pattern = in);
@@ -197,22 +158,5 @@ technology java {
 			
 			string value <mandatory>;
 		}
-		
-		//aspect ResponseStatus for parameters {
-		//	selector(exchange_pattern = out);
-
-		//	string status <mandatory>;
-		//}
-		//aspect RequestBody for parameters {
-		//	selector(exchange_pattern = in);
-		//}
-		//aspect RequestParam for parameters {
-		//	selector(exchange_pattern = in);
-		//
-		//	string value;
-		//	string defaultValue = "";
-		//}
-		//aspect Set for parameters;
-		//aspect Valid for parameters;
 	}
 }

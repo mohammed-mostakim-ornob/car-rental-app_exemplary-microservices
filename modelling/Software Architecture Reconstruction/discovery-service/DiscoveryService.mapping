@@ -11,4 +11,87 @@ DiscoveryService::de.uniba.dsg.carrental.DiscoveryService {
 			registerWithEureka = false
 		);
 	}
+	
+	interface AppsController {
+		endpoints {
+			java::_protocols.rest: "/eureka/v2/apps";
+		}
+	}
+	
+	operation AppsController.registerNewApplication {
+		endpoints {
+			java::_protocols.rest:"/{appID}";
+		}
+		
+		aspects {
+			java::_aspects.PostMapping;
+			
+			java::_aspects.HttpCode_204;
+		}
+		
+		parameters {
+			primitive appID {
+				aspects {
+					java::_aspects.PathVariable("appID");
+				}
+			}
+		}
+	}
+	
+	operation AppsController.deRegisterApplicationInstance {
+		endpoints {
+			java::_protocols.rest:"/{appID}/{instanceID}";
+		}
+		
+		aspects {
+			java::_aspects.DeleteMapping;
+			
+			java::_aspects.HttpCode_200;
+		}
+		
+		parameters {
+			primitive appID {
+				aspects {
+					java::_aspects.PathVariable("appID");
+				}
+			}
+			primitive instanceID {
+				aspects {
+					java::_aspects.PathVariable("instanceID");
+				}
+			}
+		}
+	}
+	
+	operation AppsController.queryForAllInstances {
+		endpoints {
+			java::_protocols.rest:"";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+			
+			java::_aspects.HttpCode_200;
+		}
+	}
+	
+	operation AppsController.queryForAllAppInstances {
+		endpoints {
+			java::_protocols.rest:"/{appID}";
+		}
+		
+		aspects {
+			java::_aspects.GetMapping;
+			
+			java::_aspects.HttpCode_200;
+		}
+		
+		parameters {
+			primitive appID {
+				aspects {
+					java::_aspects.PathVariable("appID");
+				}
+			}
+		}
+	}
 }

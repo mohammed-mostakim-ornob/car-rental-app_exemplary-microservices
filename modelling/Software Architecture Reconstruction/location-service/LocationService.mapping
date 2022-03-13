@@ -157,15 +157,15 @@ LocationService::de.uniba.dsg.carrental.LocationService {
 	operation LocationsController.getLocations {
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
 			complex response {
 				aspects {
 					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_500;
 				}
 			}
 		}
@@ -178,6 +178,10 @@ LocationService::de.uniba.dsg.carrental.LocationService {
 		
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_404;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
@@ -189,10 +193,6 @@ LocationService::de.uniba.dsg.carrental.LocationService {
 			complex response {
 				aspects {
 					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_404;
-					java::_aspects.HttpCode_500;
 				}
 			}
 		}
@@ -201,16 +201,16 @@ LocationService::de.uniba.dsg.carrental.LocationService {
 	operation DistanceController.getDistance {
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_404;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
 			complex response {
 				aspects {
 					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_404;
-					java::_aspects.HttpCode_500;
 				}
 			}
 		}

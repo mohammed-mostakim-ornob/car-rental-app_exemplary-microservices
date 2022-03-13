@@ -65,21 +65,13 @@ RentService::de.uniba.dsg.carrental.RentService {
 		}
 	}
 	
-	interface CarServiceProxy {
-		endpoints {
-			java::_protocols.httpProxy: "car-service";
-		}
-	}
-	
-	interface LocationServiceProxy {
-		endpoints {
-			java::_protocols.httpProxy: "location-service";
-		}
-	}
-	
 	operation RentController.getRent {
 		aspects {
 			java::_aspects.GetMapping;
+					
+			java::_aspects.HttpCode_200;
+			java::_aspects.HttpCode_400;
+			java::_aspects.HttpCode_500;
 		}
 		
 		parameters {
@@ -98,80 +90,6 @@ RentService::de.uniba.dsg.carrental.RentService {
 			primitive toLocationCode {
 				aspects {
 					java::_aspects.RequestParam(value = "toLocationCodes");
-				}
-			}
-			
-			complex response {
-				aspects {
-					java::_aspects.ResponseEntity;
-					
-					java::_aspects.HttpCode_200;
-					java::_aspects.HttpCode_400;
-					java::_aspects.HttpCode_500;
-				}
-			}
-		}
-	}
-
-	operation CarServiceProxy.fetchCar {
-		endpoints {
-			java::_protocols.rest: "/car-service/api/v1/cars/{code}";
-		}
-		
-		aspects {
-			java::_aspects.GetMapping;
-			java::_aspects.Throws("EntityNotFoundException");
-			java::_aspects.Throws("InvalidRequestParamException");
-		}
-		
-		parameters {
-			primitive code {
-				aspects {
-					java::_aspects.PathVariable("code");
-				}
-			}
-			
-			primitive instanceId {
-				aspects {
-					java::_aspects.Header("CLIENT-SERVICE-INSTANCE-ID");
-				}
-			}
-			
-			complex response {
-				aspects {
-					java::_aspects.ResponseEntity;
-				}
-			}
-		}
-	}
-	
-	operation LocationServiceProxy.getDistance {
-		endpoints {
-			java::_protocols.rest: "/location-service/api/v1/distance";
-		}
-		
-		aspects {
-			java::_aspects.GetMapping;
-			java::_aspects.Throws("EntityNotFoundException");
-			java::_aspects.Throws("InvalidRequestParamException");
-		}
-		
-		parameters {
-			primitive fromLocationCode {
-				aspects {
-					java::_aspects.RequestParam(value = "from");
-				}
-			}
-			
-			primitive toLocationCode {
-				aspects {
-					java::_aspects.RequestParam(value = "to");
-				}
-			}
-			
-			primitive instanceId {
-				aspects {
-					java::_aspects.Header("CLIENT-SERVICE-INSTANCE-ID");
 				}
 			}
 			
