@@ -4,6 +4,13 @@ context location {
 		string name
 	}
 	
+	structure Distance <entity> {
+		long id <identifier>,
+		Location fromLocation,
+		Location toLocation,
+		double distance
+	}
+	
 	list LocationList {Location l}
 	
 	structure LocationCollectionModel <valueObject> {
@@ -16,24 +23,15 @@ context location {
 		function Location findByCode(string code)
 	}
 	
-	structure LocationService <domainService> {
-		function LocationList getAllLocations,
-		function Location getLocationByCode(string code)
-	}
-}
-
-context distance {
-	structure Distance <entity> {
-		long id <identifier>,
-		location.Location fromLocation,
-		location.Location toLocation,
-		double distance
-	}
-	
 	structure DistanceRepository <repository> {
 		immutable Distance distance,
 		immutable long id,
 		function Distance findByFromCodeAndToCode(string fromCode, string toCode)
+	}
+	
+	structure LocationService <domainService> {
+		function LocationList getAllLocations,
+		function Location getLocationByCode(string code)
 	}
 	
 	structure DistanceService <domainService> {

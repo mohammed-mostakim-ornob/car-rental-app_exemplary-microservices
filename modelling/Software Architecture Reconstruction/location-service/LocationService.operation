@@ -1,6 +1,6 @@
 import microservices from "LocationService.services" as LocationService
-import technology from "../technology/docker2.technology" as containerTechnology
-import technology from "../technology/java2.technology" as protocolTechnology
+import technology from "../technology/docker.technology" as containerTechnology
+import technology from "../technology/java.technology" as protocolTechnology
 
 @technology(containerTechnology)
 @technology(protocolTechnology)

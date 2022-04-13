@@ -1,5 +1,5 @@
 import microservices from "RentService.services" as RentService
-import technology from "../technology/java2.technology" as java
+import technology from "../technology/java.technology" as java
 
 @technology(java)
 type RentService::RentService::rent.RentService {

@@ -18,7 +18,7 @@ functional microservice de.uniba.dsg.carrental.CarService {
 	}
 	
 	interface ManufacturersController {
-		getManufacturers(sync  out response: CarService::manufacturer.ManufacturerCollectionModel);
+		getManufacturers(sync  out response: CarService::car.ManufacturerCollectionModel);
 		
 		getManufacturerCars(
 			sync in name: string,

@@ -1,5 +1,5 @@
 import microservices from "CarService.services" as CarService
-import technology from "../technology/java2.technology" as java
+import technology from "../technology/java.technology" as java
 
 @technology(java)
 type CarService::CarService::car.Car {
@@ -36,7 +36,7 @@ type CarService::CarService::car.Car {
 }
 
 @technology(java)
-type CarService::CarService::manufacturer.Manufacturer {
+type CarService::CarService::car.Manufacturer {
 	aspects {
 		java::_aspects.Table("manufacturer");
 		java::_aspects.RepresentationModel;
@@ -60,7 +60,7 @@ type CarService::CarService::car.CarService {
 }
 
 @technology(java)
-type CarService::CarService::manufacturer.ManufacturerService {
+type CarService::CarService::car.ManufacturerService {
 	op getManufacturer {
 		aspects {
 			java::_aspects.Throws("EntityNotFoundException");

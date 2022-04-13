@@ -1,5 +1,5 @@
 import microservices from "ConfigService.services" as ConfigService
-import technology from "../technology/java2.technology" as java
+import technology from "../technology/java.technology" as java
 
 @technology(java)
 ConfigService::de.uniba.dsg.carrental.ConfigService {

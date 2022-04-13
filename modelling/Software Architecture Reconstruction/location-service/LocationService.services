@@ -21,7 +21,7 @@ functional microservice de.uniba.dsg.carrental.LocationService {
 		getDistance(
 			sync in fromLocationCode: string,
 			sync in toLocationCode: string,
-			sync out response: LocationService::distance.Distance
+			sync out response: LocationService::location.Distance
 		);
 	}
 }

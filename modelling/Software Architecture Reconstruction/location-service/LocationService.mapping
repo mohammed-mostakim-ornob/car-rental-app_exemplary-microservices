@@ -1,5 +1,5 @@
 import microservices from "LocationService.services" as LocationService
-import technology from "../technology/java2.technology" as java
+import technology from "../technology/java.technology" as java
 
 @technology(java)
 type LocationService::LocationService::location.Location {
@@ -23,7 +23,7 @@ type LocationService::LocationService::location.Location {
 }
 
 @technology(java)
-type LocationService::LocationService::distance.Distance {
+type LocationService::LocationService::location.Distance {
 	aspects {
 		java::_aspects.Table("distance");
 		java::_aspects.RepresentationModel;
@@ -60,7 +60,7 @@ type LocationService::LocationService::distance.Distance {
 }
 
 @technology(java)
-type LocationService::LocationService::distance.DistanceRepository {
+type LocationService::LocationService::location.DistanceRepository {
 	op findByFromCodeAndToCode {
 		aspects {
 			java::_aspects.Optional;
@@ -78,7 +78,7 @@ type LocationService::LocationService::location.LocationService {
 }
 
 @technology(java)
-type LocationService::LocationService::distance.DistanceService {
+type LocationService::LocationService::location.DistanceService {
 	op getDistanceByFromAndToCode {
 		aspects {
 			java::_aspects.Throws("EntityNotFoundException");

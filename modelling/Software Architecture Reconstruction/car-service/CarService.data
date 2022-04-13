@@ -1,15 +1,25 @@
 context car {
 	structure Car <entity> {
 		string code <identifier>,
-		manufacturer.Manufacturer manufacturer,
+		Manufacturer manufacturer,
 		string model,
 		double rentPerKilo
 	}
 	
+	structure Manufacturer <entity> {
+		string name <identifier>
+	}
+	
 	list CarList {Car c}
+	
+	list ManufacturerList {Manufacturer m}
 	
 	structure CarCollectionModel <valueObject> {
 		immutable CarList carlist
+	}
+	
+	structure ManufacturerCollectionModel <valueObject> {
+		immutable ManufacturerList manufacturerlist
 	}
 	
 	structure CarRepository <repository> {
@@ -18,27 +28,15 @@ context car {
 		function CarList findCarsByManufacturerName(string manufacturerName)
 	}
 	
+	structure ManufacturerRepository <repository> {
+		immutable Manufacturer manufacturer,
+		immutable string name
+	}
+	
 	structure CarService <domainService> {
 		function CarList getAllCars,
 		function Car getCar(string code),
 		function CarList getCarsByManufacturer(string manufacturerName)
-	}
-}
-
-context manufacturer {
-	structure Manufacturer <entity> {
-		string name <identifier>
-	}
-	
-	list ManufacturerList {Manufacturer m}
-	
-	structure ManufacturerCollectionModel <valueObject> {
-		immutable ManufacturerList manufacturerlist
-	}
-		
-	structure ManufacturerRepository <repository> {
-		immutable Manufacturer manufacturer,
-		immutable string name
 	}
 	
 	structure ManufacturerService <domainService> {
