@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="14.3.0">
-  <zoom_level>7</zoom_level>
+  <zoom_level>10</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>476</x>
-      <y>28</y>
-      <w>196</w>
-      <h>56</h>
+      <x>440</x>
+      <y>10</y>
+      <w>280</w>
+      <h>80</h>
     </coordinates>
     <panel_attributes>&lt;&lt;SpringBootApplication&gt;&gt;
 Package::de.uniba.dsg.carrental.configservice

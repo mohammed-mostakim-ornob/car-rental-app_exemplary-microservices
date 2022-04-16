@@ -36,7 +36,7 @@ public class DistanceController {
                     @ApiResponse(responseCode = "200", content = {
                             @Content(schema = @Schema(type = "object"))
                     }),
-                    @ApiResponse(responseCode = "404", content = {
+                    @ApiResponse(responseCode = "400", content = {
                             @Content(schema = @Schema(type = "string"))
                     }),
                     @ApiResponse(responseCode = "500", content = {

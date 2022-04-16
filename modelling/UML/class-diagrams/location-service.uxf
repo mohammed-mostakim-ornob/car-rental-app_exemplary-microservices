@@ -2,6 +2,70 @@
 <diagram program="umlet" version="14.3.0">
   <zoom_level>7</zoom_level>
   <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>161</x>
+      <y>609</y>
+      <w>434</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Repository&gt;&gt;
+DistanceRepository
+Package::de.uniba.dsg.carrental.locationservice.exception
+--
+findByFromCodeAndToCode(fromCode: String, toCode: fromCode): Optional&lt;Distance&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>672</x>
+      <y>609</y>
+      <w>294</w>
+      <h>84</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;Repository&gt;&gt;
+LocationRepository
+Package::de.uniba.dsg.carrental.locationservice.exception
+--
+findByCode(code: String): Optional&lt;Distance&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>567</x>
+      <y>560</y>
+      <w>112</w>
+      <h>49</h>
+    </coordinates>
+    <panel_attributes>JpaRepository&lt;T, T&gt;</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>371</x>
+      <y>525</y>
+      <w>266</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0;360.0;10.0;360.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>616</x>
+      <y>525</y>
+      <w>217</w>
+      <h>105</h>
+    </coordinates>
+    <panel_attributes>
+lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>290.0;130.0;290.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
     <id>UMLClass</id>
     <coordinates>
       <x>175</x>
@@ -83,70 +147,6 @@ Distance
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>350.0;70.0;350.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLInterface</id>
-    <coordinates>
-      <x>182</x>
-      <y>609</y>
-      <w>392</w>
-      <h>84</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Repository&gt;&gt;
-DistanceRepository
-Package::de.uniba.dsg.carrental.locationservice.exception
---
-findByFromCodeAndToCode(fromCode: String, toCode: fromCode): Optional&lt;Distance&gt;</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLInterface</id>
-    <coordinates>
-      <x>686</x>
-      <y>609</y>
-      <w>266</w>
-      <h>84</h>
-    </coordinates>
-    <panel_attributes>&lt;&lt;Repository&gt;&gt;
-LocationRepository
-Package::de.uniba.dsg.carrental.locationservice.exception
---
-findByCode(code: String): Optional&lt;Distance&gt;</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLInterface</id>
-    <coordinates>
-      <x>567</x>
-      <y>560</y>
-      <w>112</w>
-      <h>49</h>
-    </coordinates>
-    <panel_attributes>JpaRepository&lt;T, T&gt;</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>371</x>
-      <y>525</y>
-      <w>266</w>
-      <h>105</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>10.0;130.0;10.0;10.0;360.0;10.0;360.0;60.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>616</x>
-      <y>525</y>
-      <w>217</w>
-      <h>105</h>
-    </coordinates>
-    <panel_attributes>
-lt=&lt;&lt;.</panel_attributes>
-    <additional_attributes>290.0;130.0;290.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>UMLClass</id>

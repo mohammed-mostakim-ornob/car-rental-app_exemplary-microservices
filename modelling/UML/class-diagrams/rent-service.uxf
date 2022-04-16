@@ -60,9 +60,9 @@ Distance
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>49</x>
+      <x>42</x>
       <y>504</y>
-      <w>238</w>
+      <w>252</w>
       <h>84</h>
     </coordinates>
     <panel_attributes>&lt;&lt;FeignClient&gt;&gt;
@@ -353,9 +353,9 @@ Rent
   <element>
     <id>UMLInterface</id>
     <coordinates>
-      <x>532</x>
+      <x>525</x>
       <y>504</y>
-      <w>238</w>
+      <w>252</w>
       <h>84</h>
     </coordinates>
     <panel_attributes>&lt;&lt;FeignClient&gt;&gt;
