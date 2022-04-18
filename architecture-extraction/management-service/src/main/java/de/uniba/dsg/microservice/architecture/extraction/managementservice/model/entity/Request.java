@@ -27,9 +27,9 @@ public class Request {
     @Relationship(type = "server", direction = Relationship.Direction.OUTGOING)
     private ServiceInstance to;
 
-    @Relationship(type = "has_method", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "client_method", direction = Relationship.Direction.OUTGOING)
     private Method method;
 
-    @Relationship(type = "has_response", direction = Relationship.Direction.OUTGOING)
+    @Relationship(type = "server_response", direction = Relationship.Direction.OUTGOING)
     private Response response;
 }
